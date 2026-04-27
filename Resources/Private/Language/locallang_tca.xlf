@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="messages" date="2026-01-01T00:00:00Z" product-name="backend_themes">
+        <header/>
+        <body>
+            <trans-unit id="tx_backendthemes_theme">
+                <source>Backend Theme</source>
+            </trans-unit>
+            <trans-unit id="tx_backendthemes_theme.title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_backendthemes_theme.primary_color">
+                <source>Primary Color</source>
+            </trans-unit>
+            <trans-unit id="tx_backendthemes_theme.secondary_color">
+                <source>Secondary Color</source>
+            </trans-unit>
+            <trans-unit id="tx_backendthemes_theme.auto_secondary">
+                <source>Derive secondary color from primary</source>
+            </trans-unit>
+            <trans-unit id="tx_backendthemes_theme.darkmode_primary_color">
+                <source>Primary Color (Dark Mode)</source>
+            </trans-unit>
+            <trans-unit id="tx_backendthemes_theme.darkmode_secondary_color">
+                <source>Secondary Color (Dark Mode)</source>
+            </trans-unit>
+            <trans-unit id="tx_backendthemes_theme.is_default">
+                <source>Default Theme</source>
+            </trans-unit>
+            <trans-unit id="palette.colors">
+                <source>Colors</source>
+            </trans-unit>
+            <trans-unit id="palette.darkmode">
+                <source>Dark Mode Override</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
