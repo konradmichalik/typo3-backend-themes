@@ -88,6 +88,7 @@ final readonly class DataHandlerHook
             'Please reload the page for the theme changes to take effect.',
             'Theme updated',
             ContextualFeedbackSeverity::INFO,
+            true,
         );
 
         GeneralUtility::makeInstance(FlashMessageService::class)
