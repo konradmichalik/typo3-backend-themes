@@ -42,16 +42,20 @@ final readonly class ThemeItem implements ToolbarItemInterface
     {
         $this->pageRenderer->addJsInlineCode('backend_themes_reload_notice', <<<'JS'
             (function() {
-                var form = document.querySelector('form[name="usersetup"]');
-                if (!form) return;
-                var sel = form.querySelector('select[name*="[theme]"]');
-                if (!sel) return;
-                var init = sel.value;
-                sel.addEventListener('change', function() {
-                    if (sel.value !== init && top.TYPO3 && top.TYPO3.Notification) {
-                        top.TYPO3.Notification.info('Theme changed', 'Please save and reload the page for the theme to take effect.', 5);
-                    }
-                });
+                var bound = null;
+                function tryBind() {
+                    var sel = document.querySelector('form[name="usersetup"] select[name*="[theme]"]');
+                    if (!sel || sel === bound) return;
+                    bound = sel;
+                    var init = sel.value;
+                    sel.addEventListener('change', function() {
+                        if (sel.value !== init && top.TYPO3 && top.TYPO3.Notification) {
+                            top.TYPO3.Notification.info('Theme changed', 'Please save and reload the page for the theme to take effect.', 5);
+                        }
+                    });
+                }
+                new MutationObserver(tryBind).observe(document.body, {childList: true, subtree: true});
+                tryBind();
             })();
             JS);
 
