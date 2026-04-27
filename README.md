@@ -4,7 +4,10 @@
 
 # TYPO3 extension `backend_themes`
 
+[![Latest Stable Version](https://typo3-badges.dev/badge/backend_themes/version/shields.svg)](https://extensions.typo3.org/extension/backend_themes)
 [![Supported TYPO3 versions](https://typo3-badges.dev/badge/backend_themes/typo3/shields.svg)](https://extensions.typo3.org/extension/backend_themes)
+[![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/konradmichalik/typo3-backend-themes/php?logo=php)](https://packagist.org/packages/konradmichalik/typo3-backend-themes)
+![Stability](https://typo3-badges.dev/badge/backend_themes/stability/shields.svg)
 [![CGL](https://img.shields.io/github/actions/workflow/status/konradmichalik/typo3-backend-themes/cgl.yml?label=cgl&logo=github)](https://github.com/konradmichalik/typo3-backend-themes/actions/workflows/cgl.yml)
 [![Tests](https://img.shields.io/github/actions/workflow/status/konradmichalik/typo3-backend-themes/tests.yml?label=tests&logo=github)](https://github.com/konradmichalik/typo3-backend-themes/actions/workflows/tests.yml)
 [![License](https://poser.pugx.org/konradmichalik/typo3-backend-themes/license)](LICENSE)
