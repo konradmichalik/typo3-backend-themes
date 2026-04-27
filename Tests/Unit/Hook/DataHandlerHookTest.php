@@ -53,7 +53,7 @@ final class DataHandlerHookTest extends TestCase
         $queryBuilder->method('set')->willReturnSelf();
         $queryBuilder->method('where')->willReturnSelf();
         $queryBuilder->method('expr')->willReturn($expressionBuilder);
-        $queryBuilder->method('createNamedParameter')->willReturnArgument(0);
+        $queryBuilder->method('createNamedParameter')->willReturn(':dcValue1');
         $queryBuilder->expects(self::once())->method('executeStatement');
 
         $this->connectionPool
