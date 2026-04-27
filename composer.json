@@ -1,7 +1,9 @@
 {
 	"name": "konradmichalik/typo3-backend-themes",
 	"description": "TYPO3 extension to configure and select custom backend color themes with primary/secondary colors, dark mode support and live preview.",
-	"license": ["GPL-2.0-or-later"],
+	"license": [
+		"GPL-2.0-or-later"
+	],
 	"type": "typo3-cms-extension",
 	"authors": [
 		{

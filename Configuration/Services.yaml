@@ -7,9 +7,6 @@ services:
   KonradMichalik\Typo3BackendThemes\:
     resource: '../Classes/*'
 
-  KonradMichalik\Typo3BackendThemes\Backend\ToolbarItems\ThemeItem:
-    public: true
-
   KonradMichalik\Typo3BackendThemes\Service\ThemeService:
     public: true
 

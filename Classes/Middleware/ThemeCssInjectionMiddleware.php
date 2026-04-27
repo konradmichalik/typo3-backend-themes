@@ -42,39 +42,15 @@ final readonly class ThemeCssInjectionMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $this->injectThemeCss();
+        $theme = $this->themeService->resolveUserTheme();
+
+        if (null !== $theme) {
+            $css = $this->cssGenerator->generate($theme);
+            if ('' !== $css) {
+                $this->pageRenderer->addCssInlineBlock('backend_themes', $css);
+            }
+        }
 
         return $handler->handle($request);
-    }
-
-    private function injectThemeCss(): void
-    {
-        $backendUser = $GLOBALS['BE_USER'] ?? null;
-        if (null === $backendUser) {
-            return;
-        }
-
-        $themeValue = (string) ($backendUser->uc['theme'] ?? '');
-
-        if (!str_starts_with($themeValue, 'custom_')) {
-            return;
-        }
-
-        $uid = (int) substr($themeValue, 7);
-        if ($uid <= 0) {
-            return;
-        }
-
-        $theme = $this->themeService->getThemeByUid($uid);
-        if (null === $theme) {
-            return;
-        }
-
-        $css = $this->cssGenerator->generate($theme);
-        if ('' === $css) {
-            return;
-        }
-
-        $this->pageRenderer->addCssInlineBlock('backend_themes', $css);
     }
 }

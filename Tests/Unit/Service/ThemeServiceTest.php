@@ -21,62 +21,16 @@ use PHPUnit\Framework\TestCase;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 
+
+/**
+ * ThemeServiceTest.
+ *
+ * @author Konrad Michalik <hej@konradmichalik.dev>
+ * @license GPL-2.0-or-later
+ */
+
 final class ThemeServiceTest extends TestCase
 {
-    /**
-     * @param array<string, mixed>|false $result
-     */
-    private function createQueryBuilderMock(array|false $result): QueryBuilder&MockObject
-    {
-        $resultMock = $this->createMock(Result::class);
-        $resultMock->method('fetchAssociative')->willReturn($result);
-
-        $queryBuilderMock = $this->createMock(QueryBuilder::class);
-        $queryBuilderMock->method('select')->willReturnSelf();
-        $queryBuilderMock->method('from')->willReturnSelf();
-        $queryBuilderMock->method('where')->willReturnSelf();
-        $queryBuilderMock->method('setMaxResults')->willReturnSelf();
-        $queryBuilderMock->method('orderBy')->willReturnSelf();
-        $queryBuilderMock->method('createNamedParameter')->willReturn(':dcValue1');
-        $queryBuilderMock->method('expr')->willReturn(
-            $this->createMock(\TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder::class)
-        );
-        $queryBuilderMock->method('executeQuery')->willReturn($resultMock);
-
-        return $queryBuilderMock;
-    }
-
-    /**
-     * @param array<int, array<string, mixed>> $results
-     */
-    private function createQueryBuilderMockForAll(array $results): QueryBuilder&MockObject
-    {
-        $resultMock = $this->createMock(Result::class);
-        $resultMock->method('fetchAllAssociative')->willReturn($results);
-
-        $queryBuilderMock = $this->createMock(QueryBuilder::class);
-        $queryBuilderMock->method('select')->willReturnSelf();
-        $queryBuilderMock->method('from')->willReturnSelf();
-        $queryBuilderMock->method('where')->willReturnSelf();
-        $queryBuilderMock->method('setMaxResults')->willReturnSelf();
-        $queryBuilderMock->method('orderBy')->willReturnSelf();
-        $queryBuilderMock->method('createNamedParameter')->willReturn(':dcValue1');
-        $queryBuilderMock->method('expr')->willReturn(
-            $this->createMock(\TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder::class)
-        );
-        $queryBuilderMock->method('executeQuery')->willReturn($resultMock);
-
-        return $queryBuilderMock;
-    }
-
-    private function createConnectionPoolMock(QueryBuilder&MockObject $queryBuilder): ConnectionPool&MockObject
-    {
-        $connectionPoolMock = $this->createMock(ConnectionPool::class);
-        $connectionPoolMock->method('getQueryBuilderForTable')->willReturn($queryBuilder);
-
-        return $connectionPoolMock;
-    }
-
     #[Test]
     public function getDefaultThemeReturnsThemeWithIsDefaultFlag(): void
     {
@@ -161,5 +115,59 @@ final class ThemeServiceTest extends TestCase
 
         self::assertSame($themes, $result);
         self::assertCount(3, $result);
+    }
+
+    /**
+     * @param array<string, mixed>|false $result
+     */
+    private function createQueryBuilderMock(array|false $result): QueryBuilder&MockObject
+    {
+        $resultMock = $this->createMock(Result::class);
+        $resultMock->method('fetchAssociative')->willReturn($result);
+
+        $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $queryBuilderMock->method('select')->willReturnSelf();
+        $queryBuilderMock->method('from')->willReturnSelf();
+        $queryBuilderMock->method('where')->willReturnSelf();
+        $queryBuilderMock->method('setMaxResults')->willReturnSelf();
+        $queryBuilderMock->method('orderBy')->willReturnSelf();
+        $queryBuilderMock->method('createNamedParameter')->willReturn(':dcValue1');
+        $queryBuilderMock->method('expr')->willReturn(
+            $this->createMock(\TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder::class),
+        );
+        $queryBuilderMock->method('executeQuery')->willReturn($resultMock);
+
+        return $queryBuilderMock;
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $results
+     */
+    private function createQueryBuilderMockForAll(array $results): QueryBuilder&MockObject
+    {
+        $resultMock = $this->createMock(Result::class);
+        $resultMock->method('fetchAllAssociative')->willReturn($results);
+
+        $queryBuilderMock = $this->createMock(QueryBuilder::class);
+        $queryBuilderMock->method('select')->willReturnSelf();
+        $queryBuilderMock->method('from')->willReturnSelf();
+        $queryBuilderMock->method('where')->willReturnSelf();
+        $queryBuilderMock->method('setMaxResults')->willReturnSelf();
+        $queryBuilderMock->method('orderBy')->willReturnSelf();
+        $queryBuilderMock->method('createNamedParameter')->willReturn(':dcValue1');
+        $queryBuilderMock->method('expr')->willReturn(
+            $this->createMock(\TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder::class),
+        );
+        $queryBuilderMock->method('executeQuery')->willReturn($resultMock);
+
+        return $queryBuilderMock;
+    }
+
+    private function createConnectionPoolMock(QueryBuilder&MockObject $queryBuilder): ConnectionPool&MockObject
+    {
+        $connectionPoolMock = $this->createMock(ConnectionPool::class);
+        $connectionPoolMock->method('getQueryBuilderForTable')->willReturn($queryBuilder);
+
+        return $connectionPoolMock;
     }
 }

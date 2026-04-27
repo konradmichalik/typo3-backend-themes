@@ -13,15 +13,22 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3BackendThemes\Tests\Unit\Hook;
 
-use Doctrine\DBAL\Query\QueryBuilder as DoctrineQueryBuilder;
 use KonradMichalik\Typo3BackendThemes\Hook\DataHandlerHook;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
+
+
+/**
+ * DataHandlerHookTest.
+ *
+ * @author Konrad Michalik <hej@konradmichalik.dev>
+ * @license GPL-2.0-or-later
+ */
 
 final class DataHandlerHookTest extends TestCase
 {

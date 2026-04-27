@@ -1,20 +1,20 @@
 includes:
-	- %rootDir%/../../konradmichalik/phpstan-typo3-preset/phpstan.neon.dist
-	- phpstan-baseline.neon
+    - %rootDir%/../../konradmichalik/phpstan-typo3-preset/phpstan.neon.dist
+    - phpstan-baseline.neon
 
 parameters:
-	level: 8
+    level: 8
 
-	scanDirectories:
-		- ../../vendor
-		- ../../vendor/phpunit/phpunit/src
-	paths:
-		- ../../Classes
-		- ../../Configuration
-		- ../../Resources
+    scanDirectories:
+        - ../../vendor
+        - ../../vendor/phpunit/phpunit/src
+    paths:
+        - ../../Classes
+        - ../../Configuration
+        - ../../Resources
 
-	excludePaths:
-		- ../../.Build (?)
+    excludePaths:
+        - ../../.Build (?)
 
-	type_coverage:
-		constant: 0
+    type_coverage:
+        constant: 0
