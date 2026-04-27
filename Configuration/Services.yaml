@@ -1,0 +1,16 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  KonradMichalik\Typo3BackendThemes\:
+    resource: '../Classes/*'
+
+  KonradMichalik\Typo3BackendThemes\Backend\ToolbarItems\ThemeItem:
+    public: true
+    arguments:
+      $backendUser: '@TYPO3\CMS\Core\Authentication\BackendUserAuthentication'
+
+  KonradMichalik\Typo3BackendThemes\Hook\DataHandlerHook:
+    public: true
