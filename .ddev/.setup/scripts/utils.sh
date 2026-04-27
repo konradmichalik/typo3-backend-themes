@@ -296,6 +296,7 @@ function install_composer_packages() {
             typo3/cms-reports:"^$VERSION" \
             typo3/cms-lowlevel:"^$VERSION" \
             $PACKAGE_NAME:'*@dev' \
+            test/sitepackage:'*@dev' \
             helhum/typo3-console:'*' \
             --no-progress -n -d $BASE_PATH
   _done
