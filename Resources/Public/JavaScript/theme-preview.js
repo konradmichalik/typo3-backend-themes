@@ -65,25 +65,32 @@ function readAutoSecondary() {
     return true;
 }
 
-// SVG module icons for sidebar
+// Original TYPO3 module icons with multi-color support:
+// - currentColor = main icon color (white on dark sidebar)
+// - var(--icon-color-accent) = accent color derived from primary
 const ICONS = [
-    '<svg viewBox="0 0 16 16" width="14" height="14"><path d="M3 1h10a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V3a2 2 0 012-2zm0 2v10h10V3H3zm2 2h6v2H5V5zm0 4h4v2H5V9z" fill="currentColor"/></svg>',
-    '<svg viewBox="0 0 16 16" width="14" height="14"><path d="M1 3h14v2H1V3zm0 4h14v2H1V7zm0 4h10v2H1v-2z" fill="currentColor"/></svg>',
-    '<svg viewBox="0 0 16 16" width="14" height="14"><path d="M1 1h6v6H1V1zm8 0h6v6H9V1zM1 9h6v6H1V9zm8 0h6v6H9V9z" fill="currentColor"/></svg>',
-    '<svg viewBox="0 0 16 16" width="14" height="14"><path d="M2 2h5v5H2V2zm7 0h5v3H9V2zM2 9h5v5H2V9zm7-1h5v6H9V8z" fill="currentColor"/></svg>',
-    '<svg viewBox="0 0 16 16" width="14" height="14"><path d="M8 1l2.5 5H14l-4 3.5L11.5 15 8 11.5 4.5 15 6 9.5 2 6h3.5z" fill="currentColor"/></svg>',
+    // module-page
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="currentColor" d="M34.34 16 44 25.66V48H20V16h14.34M36 12H18c-1.1 0-2 .9-2 2v36c0 1.1.9 2 2 2h28c1.1 0 2-.9 2-2V24L36 12Z"/><path fill="var(--icon-color-accent, #ff8700)" d="M38 34H26c-1.1 0-2-.9-2-2s.9-2 2-2h12c1.1 0 2 .9 2 2s-.9 2-2 2ZM38 42H26c-1.1 0-2-.9-2-2s.9-2 2-2h12c1.1 0 2 .9 2 2s-.9 2-2 2Z"/><g opacity=".4"><path fill="currentColor" d="M34 16v7.67c0 1.12 1.19 2.33 2.33 2.33H44v-.34L34.34 16H34Z"/></g></svg>',
+    // module-list
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="var(--icon-color-accent, #ff8700)" d="M48 16v28H16V16h32m2-4H14c-1.1 0-2 .9-2 2v32c0 1.1.9 2 2 2h36c1.1 0 2-.9 2-2V14c0-1.1-.9-2-2-2Z"/><path fill="currentColor" d="M22 20h2v4h-2c-1.1 0-2-.9-2-2s.9-2 2-2ZM22 28h2v4h-2c-1.1 0-2-.9-2-2s.9-2 2-2ZM22 36h2v4h-2c-1.1 0-2-.9-2-2s.9-2 2-2Z"/><g fill="currentColor" opacity=".4"><path d="M42 24H24v-4h18c1.1 0 2 .9 2 2s-.9 2-2 2ZM42 32H24v-4h18c1.1 0 2 .9 2 2s-.9 2-2 2ZM42 40H24v-4h18c1.1 0 2 .9 2 2s-.9 2-2 2Z"/></g></svg>',
+    // module-file
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="4" fill="currentColor"/><path fill="currentColor" d="M42 20H14c-1.1 0-2 .9-2 2v28c0 1.1.9 2 2 2h28c1.1 0 2-.9 2-2V22c0-1.1-.9-2-2-2Zm-2 4v20.05l-4-3.25-6.4 3.2-8-6.4-5.6 4.48V24h24Z"/><path fill="var(--icon-color-accent, #ff8700)" d="M50 12H22c-1.1 0-2 .9-2 2v6h22c1.1 0 2 .9 2 2v22h6c1.1 0 2-.9 2-2V14c0-1.1-.9-2-2-2Z"/></svg>',
+    // module-dashboard
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="currentColor" d="M50 42h-4v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4h-4c-1.1 0-2 .9-2 2s.9 2 2 2h4v4c0 1.1.9 2 2 2s2-.9 2-2v-4h4c1.1 0 2-.9 2-2s-.9-2-2-2Z"/><path fill="var(--icon-color-accent, #ff8700)" d="M26 16v10H16V16h10m2-4H14c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V14c0-1.1-.9-2-2-2Z"/><g fill="currentColor" opacity=".4"><path d="M50 30H36c-1.1 0-2-.9-2-2V14c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2ZM28 52H14c-1.1 0-2-.9-2-2V36c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2Z"/></g></svg>',
+    // module-web
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g opacity=".4"><path fill="currentColor" d="M48 28.6H37.79c-1 0-2.04-1.09-2.04-2.1V16L48 28.6Z"/></g><path fill="currentColor" d="M35.81 20 44 28.42V48H24V20h11.81m1.69-4H21.75c-.97 0-1.75.81-1.75 1.8v32.4c0 .99.78 1.8 1.75 1.8h24.5c.97 0 1.75-.81 1.75-1.8V26.8L37.5 16Z"/><path fill="var(--icon-color-accent, #ff8700)" d="M20 17.8c0-.99.78-1.8 1.75-1.8H37.5l2.5 2.57V14c0-1.1-.9-2-2-2H14c-1.1 0-2 .9-2 2v32c0 1.1.9 2 2 2h6V17.8Z"/></svg>',
 ];
 
 function buildPanel(mode) {
     const L = mode === 'light';
     const iconHtml = ICONS.map(svg =>
-        `<div data-preview-icon style="width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:${L ? '#aaa' : '#555'};background:transparent;">${svg}</div>`
+        `<div data-preview-icon style="width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;">${svg}</div>`
     ).join('');
 
     return `<div data-preview-mode="${mode}" style="flex:1;">
         <div style="margin-bottom:6px;font-weight:600;font-size:12px;">${L ? 'Light' : 'Dark'}</div>
         <div style="display:flex;border:1px solid ${L ? '#ccc' : '#444'};border-radius:6px;overflow:hidden;height:140px;">
-            <div data-preview-sidebar style="width:48px;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:4px;background:${L ? '#ccc' : '#222'};">
+            <div data-preview-sidebar style="width:48px;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:2px;background:${L ? '#ccc' : '#222'};color:${L ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.7)'};">
                 ${iconHtml}
             </div>
             <div style="flex:1;display:flex;flex-direction:column;background:${L ? '#f5f5f5' : '#1e1e1e'};">
@@ -138,10 +145,12 @@ function updatePreview() {
     const light = container.querySelector('[data-preview-mode="light"]');
     if (light) {
         const bg = (autoSec || !secondary) ? deriveSidebarColor(primary, true) : secondary;
-        const iconColor = deriveIconAccent(primary, true);
-        light.querySelectorAll('[data-preview-sidebar]').forEach(el => el.style.backgroundColor = bg);
+        const accent = deriveIconAccent(primary, true);
+        light.querySelectorAll('[data-preview-sidebar]').forEach(el => {
+            el.style.backgroundColor = bg;
+            el.style.setProperty('--icon-color-accent', accent);
+        });
         light.querySelectorAll('[data-preview-header]').forEach(el => el.style.backgroundColor = bg);
-        light.querySelectorAll('[data-preview-icon]').forEach(el => el.style.color = iconColor);
     }
 
     // Dark
@@ -149,10 +158,12 @@ function updatePreview() {
     if (dark) {
         const ep = dkPrimary || primary;
         const bg = dkSecondary || ((autoSec || !secondary) ? deriveSidebarColor(ep, false) : secondary);
-        const iconColor = deriveIconAccent(ep, false);
-        dark.querySelectorAll('[data-preview-sidebar]').forEach(el => el.style.backgroundColor = bg);
+        const accent = deriveIconAccent(ep, false);
+        dark.querySelectorAll('[data-preview-sidebar]').forEach(el => {
+            el.style.backgroundColor = bg;
+            el.style.setProperty('--icon-color-accent', accent);
+        });
         dark.querySelectorAll('[data-preview-header]').forEach(el => el.style.backgroundColor = bg);
-        dark.querySelectorAll('[data-preview-icon]').forEach(el => el.style.color = iconColor);
     }
 }
 
