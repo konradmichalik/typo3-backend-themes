@@ -107,46 +107,9 @@ Fully supported via TYPO3's `[data-color-scheme="dark"]` selector.
 - **Primary Color (Dark Mode)** — overrides `--token-color-primary-base`
 - **Secondary Color (Dark Mode)** — overrides header/sidebar backgrounds
 
-## 🛠 Development
+## 🤝 Contributing
 
-### Setup
-
-```bash
-ddev start
-ddev install 14
-ddev launch 14 /typo3
-```
-
-> [!NOTE]
-> Login: `admin` / `Password1!`
-> The installation includes 5 sample theme records.
-
-### CGL
-
-```bash
-ddev cgl lint        # Check coding guidelines
-ddev cgl fix         # Auto-fix coding style
-ddev cgl sca         # Static code analysis (PHPStan)
-ddev cgl analyze     # Dependency analysis
-```
-
-### Tests
-
-```bash
-ddev exec composer test            # Run tests
-ddev exec composer test:coverage   # Run with coverage report
-```
-
-### Available DDEV Commands
-
-| Command | Description |
-|---------|-------------|
-| `ddev install 14` | Install TYPO3 v14 instance |
-| `ddev launch 14` | Open TYPO3 v14 in browser |
-| `ddev 14 typo3 cache:flush` | Flush TYPO3 cache |
-| `ddev cgl lint` | Run all linters |
-| `ddev cgl fix` | Auto-fix all linting issues |
-| `ddev cgl sca` | Run PHPStan analysis |
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, linting, testing and pull request guidelines.
 
 ## 📁 Architecture
 
