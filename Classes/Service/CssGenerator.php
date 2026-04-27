@@ -48,7 +48,7 @@ final class CssGenerator
 
         $css = $this->buildRootBlock($primaryColor, $scaffoldBg);
         $css .= "\n";
-        $css .= $this->buildIconAccentBlock();
+        $css .= $this->buildIconAccentBlock($primaryColor);
 
         if ('' !== $darkmodePrimary || '' !== $darkmodeSecondary) {
             $css .= "\n";
@@ -74,7 +74,8 @@ final class CssGenerator
 html[data-theme] {
     --token-color-primary-base: {$primaryColor};
     --token-color-secondary-base: color-mix(in srgb, #737373, var(--token-color-primary-base) var(--typo3-color-state-harmonize));
-    --typo3-icons-accent: light-dark(hsl(from var(--token-color-primary-base) h s 55%), hsl(from var(--token-color-primary-base) h s 45%));
+    --typo3-icons-accent: light-dark(hsl(from {$primaryColor} h s 55%), hsl(from {$primaryColor} h s 45%));
+    --icon-color-accent: var(--typo3-icons-accent);
     --typo3-scaffold-header-color: var(--typo3-surface-primary-text);
     --typo3-scaffold-header-bg: {$scaffoldBg};
     --typo3-scaffold-header-box-shadow: none;
@@ -85,11 +86,11 @@ html[data-theme] {
 CSS;
     }
 
-    private function buildIconAccentBlock(): string
+    private function buildIconAccentBlock(string $primaryColor): string
     {
         return <<<CSS
 html[data-theme] .scaffold-sidebar {
-    --typo3-icons-accent: light-dark(hsl(from var(--token-color-primary-base) h s 75%), hsl(from var(--token-color-primary-base) h s 70%));
+    --typo3-icons-accent: light-dark(hsl(from {$primaryColor} h s 75%), hsl(from {$primaryColor} h s 70%));
 }
 CSS;
     }
