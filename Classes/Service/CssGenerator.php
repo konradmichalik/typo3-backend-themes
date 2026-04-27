@@ -71,7 +71,7 @@ final class CssGenerator
     private function buildRootBlock(string $primaryColor, string $scaffoldBg): string
     {
         return <<<CSS
-:root {
+[data-theme] {
     --token-color-primary-base: {$primaryColor};
     --typo3-scaffold-header-color: var(--typo3-surface-primary-text);
     --typo3-scaffold-header-bg: {$scaffoldBg};
@@ -86,7 +86,7 @@ CSS;
     private function buildIconAccentBlock(): string
     {
         return <<<CSS
-.scaffold-sidebar {
+[data-theme] .scaffold-sidebar {
     --typo3-icons-accent: light-dark(hsl(from var(--token-color-primary-base) h s 75%), hsl(from var(--token-color-primary-base) h s 70%));
 }
 CSS;
