@@ -175,10 +175,19 @@ function updatePreview() {
 }
 
 /**
+ * AbortController to prevent listener accumulation on FormEngine reloads.
+ */
+let listenerController = new AbortController();
+
+/**
  * Attaches change/input listeners to all relevant color inputs and the
- * auto_secondary checkbox.
+ * auto_secondary checkbox. Previous listeners are cleaned up via AbortController.
  */
 function attachListeners() {
+    listenerController.abort();
+    listenerController = new AbortController();
+    const opts = { signal: listenerController.signal };
+
     const fields = [
         'primary_color',
         'secondary_color',
@@ -189,14 +198,14 @@ function attachListeners() {
     fields.forEach(suffix => {
         const el = findInput(suffix);
         if (el) {
-            el.addEventListener('input', updatePreview);
-            el.addEventListener('change', updatePreview);
+            el.addEventListener('input', updatePreview, opts);
+            el.addEventListener('change', updatePreview, opts);
         }
     });
 
     const autoSecondaryEl = findInput('auto_secondary');
     if (autoSecondaryEl) {
-        autoSecondaryEl.addEventListener('change', updatePreview);
+        autoSecondaryEl.addEventListener('change', updatePreview, opts);
     }
 }
 
@@ -211,8 +220,10 @@ function init() {
     const tceForms = document.querySelector('.typo3-TCEforms');
     if (tceForms) {
         const observer = new MutationObserver(() => {
-            updatePreview();
-            attachListeners();
+            requestAnimationFrame(() => {
+                updatePreview();
+                attachListeners();
+            });
         });
         observer.observe(tceForms, { childList: true, subtree: true });
     }

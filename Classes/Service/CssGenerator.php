@@ -32,8 +32,17 @@ final class CssGenerator
 
         $autoSecondary = (bool)($theme['auto_secondary'] ?? true);
         $secondaryColor = (string)($theme['secondary_color'] ?? '');
+        if ('' !== $secondaryColor && !$this->isValidHexColor($secondaryColor)) {
+            $secondaryColor = '';
+        }
         $darkmodePrimaryColor = (string)($theme['darkmode_primary_color'] ?? '');
+        if ('' !== $darkmodePrimaryColor && !$this->isValidHexColor($darkmodePrimaryColor)) {
+            $darkmodePrimaryColor = '';
+        }
         $darkmodeSecondaryColor = (string)($theme['darkmode_secondary_color'] ?? '');
+        if ('' !== $darkmodeSecondaryColor && !$this->isValidHexColor($darkmodeSecondaryColor)) {
+            $darkmodeSecondaryColor = '';
+        }
 
         $scaffoldBg = $this->resolveScaffoldBg($autoSecondary, $secondaryColor);
 

@@ -15,6 +15,7 @@ namespace KonradMichalik\Typo3BackendThemes\Hook;
 
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 final readonly class DataHandlerHook
@@ -35,17 +36,26 @@ final readonly class DataHandlerHook
             return;
         }
 
-        if (!isset($fieldArray['is_default']) || $fieldArray['is_default'] !== 1) {
+        if (!isset($fieldArray['is_default']) || (int)$fieldArray['is_default'] !== 1) {
             return;
         }
 
+        if ('new' === $status) {
+            $id = $dataHandler->substNEWwithIDs[$id] ?? 0;
+            if (0 === (int)$id) {
+                return;
+            }
+        }
+
+        $uid = (int)$id;
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_NAME);
+        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
         $queryBuilder
             ->update(self::TABLE_NAME)
             ->set('is_default', 0)
             ->where(
                 $queryBuilder->expr()->eq('is_default', $queryBuilder->createNamedParameter(1, Connection::PARAM_INT)),
-                $queryBuilder->expr()->neq('uid', $queryBuilder->createNamedParameter($id, Connection::PARAM_INT))
+                $queryBuilder->expr()->neq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT))
             )
             ->executeStatement();
     }
