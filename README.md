@@ -69,6 +69,14 @@ Download the zip file from [TYPO3 extension repository (TER)](https://extensions
 > [!TIP]
 > Check **Default Theme** to mark it as the admin-recommended theme. It will appear at the top of the user dropdown with "(Default)" suffix.
 
+### Extension Settings
+
+Under **Admin Tools → Settings → Extension Configuration → backend_themes**:
+
+| Setting | Description |
+|---------|-------------|
+| Hide default TYPO3 themes | Removes Fresh, Modern and Classic from the theme dropdown. Only custom themes remain selectable. |
+
 ### User Settings
 
 Users select their theme under **User Settings → Appearance → Theme**:
