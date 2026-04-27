@@ -74,6 +74,7 @@ final class CssGenerator
 html[data-theme] {
     --token-color-primary-base: {$primaryColor};
     --token-color-secondary-base: color-mix(in srgb, #737373, var(--token-color-primary-base) var(--typo3-color-state-harmonize));
+    --typo3-icons-accent: light-dark(hsl(from var(--token-color-primary-base) h s 55%), hsl(from var(--token-color-primary-base) h s 45%));
     --typo3-scaffold-header-color: var(--typo3-surface-primary-text);
     --typo3-scaffold-header-bg: {$scaffoldBg};
     --typo3-scaffold-header-box-shadow: none;
