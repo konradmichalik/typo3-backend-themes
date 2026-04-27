@@ -13,10 +13,17 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3BackendThemes\Backend\ToolbarItems;
 
-use KonradMichalik\Typo3BackendThemes\Service\CssGenerator;
-use KonradMichalik\Typo3BackendThemes\Service\ThemeService;
+use KonradMichalik\Typo3BackendThemes\Service\{CssGenerator, ThemeService};
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
+
+
+/**
+ * ThemeItem.
+ *
+ * @author Konrad Michalik <hej@konradmichalik.dev>
+ * @license GPL-2.0-or-later
+ */
 
 final readonly class ThemeItem implements ToolbarItemInterface
 {
@@ -34,31 +41,29 @@ final readonly class ThemeItem implements ToolbarItemInterface
     public function getItem(): string
     {
         $backendUser = $GLOBALS['BE_USER'] ?? null;
-        if ($backendUser === null) {
+        if (null === $backendUser) {
             return '';
         }
 
-        $themeValue = (string)($backendUser->uc['theme'] ?? '');
-        $theme = null;
+        $themeValue = (string) ($backendUser->uc['theme'] ?? '');
 
-        if (str_starts_with($themeValue, 'custom_')) {
-            $uid = (int)substr($themeValue, 7);
-            if ($uid > 0) {
-                $theme = $this->themeService->getThemeByUid($uid);
-            }
+        if (!str_starts_with($themeValue, 'custom_')) {
+            return '';
         }
 
-        if ($theme === null) {
-            $theme = $this->themeService->getDefaultTheme();
+        $uid = (int) substr($themeValue, 7);
+        if ($uid <= 0) {
+            return '';
         }
 
-        if ($theme === null) {
+        $theme = $this->themeService->getThemeByUid($uid);
+        if (null === $theme) {
             return '';
         }
 
         $css = $this->cssGenerator->generate($theme);
 
-        if ($css === '') {
+        if ('' === $css) {
             return '';
         }
 
