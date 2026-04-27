@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace KonradMichalik\Typo3BackendThemes\Backend\Form\ItemsProcFunc;
 
 use KonradMichalik\Typo3BackendThemes\Service\ThemeService;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 
 /**
@@ -27,6 +28,7 @@ final readonly class ThemeItemsProcFunc
 {
     public function __construct(
         private ThemeService $themeService,
+        private ExtensionConfiguration $extensionConfiguration,
     ) {}
 
     /**
@@ -34,13 +36,18 @@ final readonly class ThemeItemsProcFunc
      */
     public function addCustomThemes(array &$params): void
     {
+        $hideDefaults = (bool) ($this->extensionConfiguration->get('backend_themes', 'hideDefaultThemes') ?? false);
+
+        if ($hideDefaults) {
+            $params['items'] = [];
+        }
+
         $customThemes = $this->themeService->getAllThemes();
 
         if ([] === $customThemes) {
             return;
         }
 
-        // Find the default theme and place it at the very top of the list
         $defaultTheme = null;
         $otherThemes = [];
         foreach ($customThemes as $theme) {
@@ -52,7 +59,6 @@ final readonly class ThemeItemsProcFunc
         }
 
         if (null !== $defaultTheme) {
-            // Insert default theme before all standard themes
             array_unshift($params['items'], [
                 'label' => (string) $defaultTheme['title'].' (Default)',
                 'value' => 'custom_'.(int) $defaultTheme['uid'],

@@ -1,0 +1,2 @@
+# cat=basic; type=boolean; label=Hide default TYPO3 themes:If enabled, the standard themes (Fresh, Modern, Classic) are hidden from the theme selection in User Settings.
+hideDefaultThemes = 0
