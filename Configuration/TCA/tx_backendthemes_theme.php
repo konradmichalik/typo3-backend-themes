@@ -17,7 +17,7 @@ return [
         'security' => [
             'ignorePageTypeRestriction' => true,
         ],
-        'iconIdentifier' => 'actions-brush',
+        'iconIdentifier' => 'backend-themes-record',
         'delete' => 'deleted',
         'enablecolumns' => [
             'disabled' => 'hidden',
