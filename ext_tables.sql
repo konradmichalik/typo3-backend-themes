@@ -5,6 +5,5 @@ CREATE TABLE tx_backendthemes_theme (
     auto_secondary tinyint(1) unsigned NOT NULL DEFAULT 1,
     darkmode_primary_color varchar(7) NOT NULL DEFAULT '',
     darkmode_secondary_color varchar(7) NOT NULL DEFAULT '',
-    is_default tinyint(1) unsigned NOT NULL DEFAULT 0,
-    theme_preview tinyint(1) unsigned NOT NULL DEFAULT 0
+    is_default tinyint(1) unsigned NOT NULL DEFAULT 0
 );

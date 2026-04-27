@@ -32,7 +32,6 @@ return [
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
                     --palette--;;general,
                     --palette--;;colors,
-                    theme_preview,
                 --div--;LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.darkmode,
                     --palette--;;darkmode,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
@@ -83,6 +82,11 @@ return [
             'config' => [
                 'type' => 'color',
                 'required' => true,
+                'fieldWizard' => [
+                    'backendThemePreview' => [
+                        'renderType' => 'backendThemePreview',
+                    ],
+                ],
             ],
         ],
         'secondary_color' => [
@@ -131,13 +135,6 @@ return [
                         'label' => '',
                     ],
                 ],
-            ],
-        ],
-        'theme_preview' => [
-            'label' => '',
-            'config' => [
-                'type' => 'user',
-                'renderType' => 'backendThemePreview',
             ],
         ],
     ],

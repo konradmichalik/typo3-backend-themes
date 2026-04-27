@@ -1,31 +1,15 @@
 /**
- * Theme Preview - live color preview for ThemePreviewElement
+ * Theme Preview - live color preview injected into TCA form.
  *
- * Plain ES module, no build step required.
+ * Self-initializing: finds the color fields, injects preview HTML,
+ * and updates on every color change.
  */
 
-/**
- * Converts a hex color string to an HSL object.
- *
- * @param {string} hex
- * @returns {{ h: number, s: number, l: number }}
- */
 function hexToHsl(hex) {
-    let r = 0, g = 0, b = 0;
     const clean = hex.replace('#', '');
-    if (clean.length === 3) {
-        r = parseInt(clean[0] + clean[0], 16);
-        g = parseInt(clean[1] + clean[1], 16);
-        b = parseInt(clean[2] + clean[2], 16);
-    } else if (clean.length === 6) {
-        r = parseInt(clean.slice(0, 2), 16);
-        g = parseInt(clean.slice(2, 4), 16);
-        b = parseInt(clean.slice(4, 6), 16);
-    }
-
-    r /= 255;
-    g /= 255;
-    b /= 255;
+    let r = parseInt(clean.slice(0, 2), 16) / 255;
+    let g = parseInt(clean.slice(2, 4), 16) / 255;
+    let b = parseInt(clean.slice(4, 6), 16) / 255;
 
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
@@ -35,167 +19,135 @@ function hexToHsl(hex) {
     if (max !== min) {
         const d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-            case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
-            case g: h = ((b - r) / d + 2) / 6; break;
-            case b: h = ((r - g) / d + 4) / 6; break;
-        }
+        if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+        else if (max === g) h = ((b - r) / d + 2) / 6;
+        else h = ((r - g) / d + 4) / 6;
     }
 
     return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
 }
 
-/**
- * Derives a sidebar background color from a primary hex color.
- *
- * @param {string} hex
- * @param {boolean} lightMode
- * @returns {string} HSL CSS string
- */
 function deriveSidebarColor(hex, lightMode) {
     const { h } = hexToHsl(hex);
-    return lightMode
-        ? `hsl(${h}, 40%, 20%)`
-        : `hsl(${h}, 20%, 10%)`;
+    return lightMode ? `hsl(${h}, 40%, 20%)` : `hsl(${h}, 20%, 10%)`;
 }
 
-/**
- * Derives an icon accent color from a primary hex color.
- *
- * @param {string} hex
- * @param {boolean} lightMode
- * @returns {string} HSL CSS string
- */
 function deriveIconAccent(hex, lightMode) {
     const { h } = hexToHsl(hex);
-    return lightMode
-        ? `hsl(${h}, 80%, 70%)`
-        : `hsl(${h}, 60%, 60%)`;
+    return lightMode ? `hsl(${h}, 80%, 70%)` : `hsl(${h}, 60%, 60%)`;
 }
 
-/**
- * Finds the closest FormEngine field by name suffix within the TCEforms scope.
- *
- * @param {string} suffix
- * @returns {HTMLInputElement|null}
- */
 function findInput(suffix) {
-    return document.querySelector(`[name$="[${suffix}]"], [name$="_${suffix}"], [data-field-name="${suffix}"]`);
+    return document.querySelector(
+        `input[data-formengine-input-name$="[${suffix}]"], input[name$="[${suffix}]"]`
+    );
 }
 
-/**
- * Reads the current value of a color input by name suffix.
- *
- * @param {string} suffix
- * @returns {string} hex color or empty string
- */
 function readColor(suffix) {
     const el = findInput(suffix);
     if (!el) return '';
     const val = el.value.trim();
-    return val.startsWith('#') ? val : (val ? '#' + val : '');
+    return /^#[0-9A-Fa-f]{6}$/.test(val) ? val : '';
 }
 
-/**
- * Reads whether the auto_secondary checkbox is checked.
- *
- * @returns {boolean}
- */
 function readAutoSecondary() {
-    const el = findInput('auto_secondary');
+    const el = document.querySelector('input[name$="[auto_secondary]"]');
     if (!el) return true;
-    return el.checked;
+    return el.checked || el.value === '1';
 }
 
-/**
- * Updates the live preview containers based on current color input values.
- */
+const PREVIEW_HTML = `
+<div data-theme-preview style="margin:16px 0;">
+    <div style="display:flex;gap:16px;">
+        <div data-preview-mode="light" style="flex:1;">
+            <div style="margin-bottom:6px;font-weight:600;font-size:12px;">Light</div>
+            <div style="display:flex;border:1px solid #ccc;border-radius:4px;overflow:hidden;height:100px;">
+                <div data-preview-sidebar style="width:40px;display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:6px;background:#ccc;">
+                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#aaa;"></div>
+                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#aaa;"></div>
+                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#aaa;"></div>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;background:#f5f5f5;">
+                    <div data-preview-header style="height:28px;background:#ddd;display:flex;align-items:center;padding:0 8px;">
+                        <span style="color:#fff;font-size:10px;">Header</span>
+                    </div>
+                    <div style="flex:1;padding:6px;"><div style="height:100%;background:#fff;border:1px solid #e0e0e0;border-radius:2px;"></div></div>
+                </div>
+            </div>
+        </div>
+        <div data-preview-mode="dark" style="flex:1;">
+            <div style="margin-bottom:6px;font-weight:600;font-size:12px;">Dark</div>
+            <div style="display:flex;border:1px solid #444;border-radius:4px;overflow:hidden;height:100px;">
+                <div data-preview-sidebar style="width:40px;display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:6px;background:#222;">
+                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#333;"></div>
+                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#333;"></div>
+                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#333;"></div>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;background:#1e1e1e;">
+                    <div data-preview-header style="height:28px;background:#2d2d2d;display:flex;align-items:center;padding:0 8px;">
+                        <span style="color:#fff;font-size:10px;">Header</span>
+                    </div>
+                    <div style="flex:1;padding:6px;"><div style="height:100%;background:#2a2a2a;border:1px solid #444;border-radius:2px;"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>`;
+
+function injectPreview() {
+    if (document.querySelector('[data-theme-preview]')) return;
+
+    const primaryField = findInput('primary_color');
+    if (!primaryField) return;
+
+    const formSection = primaryField.closest('.form-section, .tab-pane, fieldset');
+    if (!formSection) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = PREVIEW_HTML;
+    formSection.parentNode.insertBefore(wrapper.firstElementChild, formSection.nextSibling);
+}
+
 function updatePreview() {
     const container = document.querySelector('[data-theme-preview]');
     if (!container) return;
 
     const primaryColor = readColor('primary_color');
-    const secondaryColor = readColor('secondary_color');
-    const autoSecondary = readAutoSecondary();
-    const darkmodePrimaryColor = readColor('darkmode_primary_color');
-    const darkmodeSecondaryColor = readColor('darkmode_secondary_color');
-
     if (!primaryColor) return;
 
+    const secondaryColor = readColor('secondary_color');
+    const autoSecondary = readAutoSecondary();
+    const darkPrimary = readColor('darkmode_primary_color');
+    const darkSecondary = readColor('darkmode_secondary_color');
+
     // Light mode
-    const lightContainer = container.querySelector('[data-preview-mode="light"]');
-    if (lightContainer) {
-        const sidebarBg = (autoSecondary || !secondaryColor)
-            ? deriveSidebarColor(primaryColor, true)
-            : secondaryColor;
-        const headerBg = primaryColor;
-        const iconColor = deriveIconAccent(primaryColor, true);
-
-        const sidebar = lightContainer.querySelector('[data-preview-sidebar]');
-        if (sidebar) sidebar.style.backgroundColor = sidebarBg;
-
-        const header = lightContainer.querySelector('[data-preview-header]');
-        if (header) {
-            header.style.backgroundColor = headerBg;
-            const span = header.querySelector('span');
-            if (span) span.style.color = '#fff';
-        }
-
-        lightContainer.querySelectorAll('[data-preview-icon]').forEach(icon => {
-            icon.style.backgroundColor = iconColor;
-        });
+    const light = container.querySelector('[data-preview-mode="light"]');
+    if (light) {
+        const bg = (autoSecondary || !secondaryColor) ? deriveSidebarColor(primaryColor, true) : secondaryColor;
+        light.querySelectorAll('[data-preview-sidebar]').forEach(el => el.style.backgroundColor = bg);
+        light.querySelectorAll('[data-preview-header]').forEach(el => el.style.backgroundColor = bg);
+        light.querySelectorAll('[data-preview-icon]').forEach(el => el.style.backgroundColor = deriveIconAccent(primaryColor, true));
     }
 
     // Dark mode
-    const darkContainer = container.querySelector('[data-preview-mode="dark"]');
-    if (darkContainer) {
-        const effectivePrimary = darkmodePrimaryColor || primaryColor;
-        const effectiveSecondary = darkmodeSecondaryColor || '';
-
-        const sidebarBg = (autoSecondary || !effectiveSecondary)
-            ? deriveSidebarColor(effectivePrimary, false)
-            : effectiveSecondary;
-        const headerBg = effectivePrimary;
-        const iconColor = deriveIconAccent(effectivePrimary, false);
-
-        const sidebar = darkContainer.querySelector('[data-preview-sidebar]');
-        if (sidebar) sidebar.style.backgroundColor = sidebarBg;
-
-        const header = darkContainer.querySelector('[data-preview-header]');
-        if (header) {
-            header.style.backgroundColor = headerBg;
-            const span = header.querySelector('span');
-            if (span) span.style.color = '#fff';
-        }
-
-        darkContainer.querySelectorAll('[data-preview-icon]').forEach(icon => {
-            icon.style.backgroundColor = iconColor;
-        });
+    const dark = container.querySelector('[data-preview-mode="dark"]');
+    if (dark) {
+        const ep = darkPrimary || primaryColor;
+        const bg = darkSecondary || ((autoSecondary || !secondaryColor) ? deriveSidebarColor(ep, false) : secondaryColor);
+        dark.querySelectorAll('[data-preview-sidebar]').forEach(el => el.style.backgroundColor = bg);
+        dark.querySelectorAll('[data-preview-header]').forEach(el => el.style.backgroundColor = bg);
+        dark.querySelectorAll('[data-preview-icon]').forEach(el => el.style.backgroundColor = deriveIconAccent(ep, false));
     }
 }
 
-/**
- * AbortController to prevent listener accumulation on FormEngine reloads.
- */
 let listenerController = new AbortController();
 
-/**
- * Attaches change/input listeners to all relevant color inputs and the
- * auto_secondary checkbox. Previous listeners are cleaned up via AbortController.
- */
 function attachListeners() {
     listenerController.abort();
     listenerController = new AbortController();
     const opts = { signal: listenerController.signal };
 
-    const fields = [
-        'primary_color',
-        'secondary_color',
-        'darkmode_primary_color',
-        'darkmode_secondary_color',
-    ];
-
-    fields.forEach(suffix => {
+    ['primary_color', 'secondary_color', 'darkmode_primary_color', 'darkmode_secondary_color'].forEach(suffix => {
         const el = findInput(suffix);
         if (el) {
             el.addEventListener('input', updatePreview, opts);
@@ -203,29 +155,24 @@ function attachListeners() {
         }
     });
 
-    const autoSecondaryEl = findInput('auto_secondary');
-    if (autoSecondaryEl) {
-        autoSecondaryEl.addEventListener('change', updatePreview, opts);
-    }
+    const auto = document.querySelector('input[name$="[auto_secondary]"]');
+    if (auto) auto.addEventListener('change', updatePreview, opts);
 }
 
-/**
- * Initializes the preview on DOMContentLoaded and observes FormEngine
- * dynamic reloads via MutationObserver.
- */
 function init() {
+    injectPreview();
     updatePreview();
     attachListeners();
 
     const tceForms = document.querySelector('.typo3-TCEforms');
     if (tceForms) {
-        const observer = new MutationObserver(() => {
+        new MutationObserver(() => {
             requestAnimationFrame(() => {
+                injectPreview();
                 updatePreview();
                 attachListeners();
             });
-        });
-        observer.observe(tceForms, { childList: true, subtree: true });
+        }).observe(tceForms, { childList: true, subtree: true });
     }
 }
 
