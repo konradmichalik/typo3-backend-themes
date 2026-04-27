@@ -28,8 +28,8 @@ function deriveSidebarColor(hex, light) {
 }
 
 function deriveIconAccent(hex, light) {
-    const { h } = hexToHsl(hex);
-    return light ? `hsl(${h}, 80%, 70%)` : `hsl(${h}, 60%, 60%)`;
+    const { h, s } = hexToHsl(hex);
+    return light ? `hsl(${h}, ${s}%, 75%)` : `hsl(${h}, ${s}%, 70%)`;
 }
 
 /**

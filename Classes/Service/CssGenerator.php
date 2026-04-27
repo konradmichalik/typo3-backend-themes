@@ -94,8 +94,8 @@ CSS;
     private function buildIconAccentBlock(): string
     {
         return <<<CSS
-[data-theme] .scaffold-sidebar {
-    --typo3-icons-accent: light-dark(hsl(from var(--token-color-primary-base) h 80% 70%), hsl(from var(--token-color-primary-base) h 60% 60%));
+.scaffold-sidebar {
+    --typo3-icons-accent: light-dark(hsl(from var(--token-color-primary-base) h s 75%), hsl(from var(--token-color-primary-base) h s 70%));
 }
 CSS;
     }
