@@ -14,6 +14,6 @@ declare(strict_types=1);
 return [
     'backend-themes-record' => [
         'provider' => \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-        'source' => 'EXT:backend_themes/Resources/Public/Icons/Extension.svg',
+        'source' => 'EXT:backend_themes/Resources/Public/Icons/backend-themes-record.svg',
     ],
 ];
