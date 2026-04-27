@@ -35,6 +35,7 @@ return [
             'showitem' => '
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
                     --palette--;;general,
+                    primary_color,
                     --palette--;;overrides,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                     hidden
@@ -43,7 +44,7 @@ return [
     ],
     'palettes' => [
         'general' => [
-            'showitem' => 'title, is_default, --linebreak--, primary_color',
+            'showitem' => 'title, is_default',
         ],
         'overrides' => [
             'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.overrides',
@@ -80,11 +81,6 @@ return [
             'config' => [
                 'type' => 'color',
                 'required' => true,
-                'fieldWizard' => [
-                    'backendThemePreview' => [
-                        'renderType' => 'backendThemePreview',
-                    ],
-                ],
             ],
         ],
         'secondary_color' => [
@@ -117,6 +113,11 @@ return [
                 'items' => [
                     [
                         'label' => '',
+                    ],
+                ],
+                'fieldWizard' => [
+                    'backendThemePreview' => [
+                        'renderType' => 'backendThemePreview',
                     ],
                 ],
             ],
