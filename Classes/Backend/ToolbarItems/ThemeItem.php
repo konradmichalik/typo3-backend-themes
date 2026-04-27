@@ -35,11 +35,14 @@ final readonly class ThemeItem implements ToolbarItemInterface
 
     public function getItem(): string
     {
-        $uid = (int)($this->backendUser->uc['backendTheme'] ?? 0);
-
+        $themeValue = (string)($this->backendUser->uc['theme'] ?? '');
         $theme = null;
-        if ($uid > 0) {
-            $theme = $this->themeService->getThemeByUid($uid);
+
+        if (str_starts_with($themeValue, 'custom_')) {
+            $uid = (int)substr($themeValue, 7);
+            if ($uid > 0) {
+                $theme = $this->themeService->getThemeByUid($uid);
+            }
         }
 
         if ($theme === null) {

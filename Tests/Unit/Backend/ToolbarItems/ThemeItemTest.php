@@ -53,7 +53,7 @@ final class ThemeItemTest extends TestCase
         $theme = ['uid' => 1, 'primary_color' => '#3B82F6'];
         $css = ':root { --token-color-primary-base: #3B82F6; }';
 
-        $this->backendUser->uc = ['backendTheme' => 1];
+        $this->backendUser->uc = ['theme' => 'custom_1'];
 
         $this->themeService->expects(self::once())
             ->method('getThemeByUid')

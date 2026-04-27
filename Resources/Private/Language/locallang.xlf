@@ -9,6 +9,12 @@
             <trans-unit id="userSettings.backendTheme.standard" resname="userSettings.backendTheme.standard">
                 <source>Standard (no custom theme)</source>
             </trans-unit>
+            <trans-unit id="userSettings.optgroup.default" resname="userSettings.optgroup.default">
+                <source>Default Themes</source>
+            </trans-unit>
+            <trans-unit id="userSettings.optgroup.custom" resname="userSettings.optgroup.custom">
+                <source>Custom Themes</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
