@@ -16,7 +16,6 @@ namespace KonradMichalik\Typo3BackendThemes\Backend\ToolbarItems;
 use KonradMichalik\Typo3BackendThemes\Service\CssGenerator;
 use KonradMichalik\Typo3BackendThemes\Service\ThemeService;
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Page\PageRenderer;
 
 final readonly class ThemeItem implements ToolbarItemInterface
@@ -25,7 +24,6 @@ final readonly class ThemeItem implements ToolbarItemInterface
         private PageRenderer $pageRenderer,
         private ThemeService $themeService,
         private CssGenerator $cssGenerator,
-        private BackendUserAuthentication $backendUser,
     ) {}
 
     public function checkAccess(): bool
@@ -35,7 +33,12 @@ final readonly class ThemeItem implements ToolbarItemInterface
 
     public function getItem(): string
     {
-        $themeValue = (string)($this->backendUser->uc['theme'] ?? '');
+        $backendUser = $GLOBALS['BE_USER'] ?? null;
+        if ($backendUser === null) {
+            return '';
+        }
+
+        $themeValue = (string)($backendUser->uc['theme'] ?? '');
         $theme = null;
 
         if (str_starts_with($themeValue, 'custom_')) {

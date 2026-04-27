@@ -9,8 +9,6 @@ services:
 
   KonradMichalik\Typo3BackendThemes\Backend\ToolbarItems\ThemeItem:
     public: true
-    arguments:
-      $backendUser: '@TYPO3\CMS\Core\Authentication\BackendUserAuthentication'
 
   KonradMichalik\Typo3BackendThemes\Service\ThemeService:
     public: true
