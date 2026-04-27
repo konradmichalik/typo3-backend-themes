@@ -19,11 +19,5 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1745740800] = [
     'class' => KonradMichalik\Typo3BackendThemes\Backend\Form\Element\ThemePreviewElement::class,
 ];
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1745740801] = [
-    'nodeName' => 'backendThemeSelect',
-    'priority' => 40,
-    'class' => KonradMichalik\Typo3BackendThemes\Backend\Form\Element\ThemeSelectElement::class,
-];
-
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['backend_themes']
     = KonradMichalik\Typo3BackendThemes\Hook\DataHandlerHook::class;
