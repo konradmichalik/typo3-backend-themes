@@ -30,8 +30,8 @@ function _progress() {
       _spinner &
       SPINNER_PID=$!
       # Save current stdout/stderr
-      exec 3>&1 4>&2
-      exec >/dev/null 2>&1
+#      exec 3>&1 4>&2
+#      exec >/dev/null 2>&1
     else
       printf "\n"
     fi
@@ -296,7 +296,6 @@ function install_composer_packages() {
             typo3/cms-reports:"^$VERSION" \
             typo3/cms-lowlevel:"^$VERSION" \
             $PACKAGE_NAME:'*@dev' \
-            test/sitepackage:'*@dev' \
             helhum/typo3-console:'*' \
             --no-progress -n -d $BASE_PATH
   _done
