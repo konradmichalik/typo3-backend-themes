@@ -1,7 +1,15 @@
-# TYPO3 Backend Themes
+<div align="center">
 
-[![Tests](https://github.com/konradmichalik/typo3-backend-themes/actions/workflows/tests.yml/badge.svg)](https://github.com/konradmichalik/typo3-backend-themes/actions/workflows/tests.yml)
-[![CGL](https://github.com/konradmichalik/typo3-backend-themes/actions/workflows/cgl.yml/badge.svg)](https://github.com/konradmichalik/typo3-backend-themes/actions/workflows/cgl.yml)
+![Extension icon](Resources/Public/Icons/backend-themes-record.svg)
+
+# TYPO3 extension `backend_themes`
+
+[![Supported TYPO3 versions](https://typo3-badges.dev/badge/backend_themes/typo3/shields.svg)](https://extensions.typo3.org/extension/backend_themes)
+[![CGL](https://img.shields.io/github/actions/workflow/status/konradmichalik/typo3-backend-themes/cgl.yml?label=cgl&logo=github)](https://github.com/konradmichalik/typo3-backend-themes/actions/workflows/cgl.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/konradmichalik/typo3-backend-themes/tests.yml?label=tests&logo=github)](https://github.com/konradmichalik/typo3-backend-themes/actions/workflows/tests.yml)
+[![License](https://poser.pugx.org/konradmichalik/typo3-backend-themes/license)](LICENSE)
+
+</div>
 
 TYPO3 v14 extension to create custom backend color themes. Define primary and secondary colors, configure dark mode overrides, and let backend users choose their preferred theme.
 
