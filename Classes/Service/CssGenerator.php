@@ -125,7 +125,7 @@ CSS;
         $innerCss = implode("\n", $lines);
 
         return <<<CSS
-[data-theme="dark"] {
+[data-color-scheme="dark"] {
 {$innerCss}
 }
 CSS;

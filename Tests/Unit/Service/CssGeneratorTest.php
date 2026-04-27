@@ -98,7 +98,7 @@ final class CssGeneratorTest extends TestCase
 
         $css = $this->subject->generate($theme);
 
-        self::assertStringContainsString('[data-theme="dark"]', $css);
+        self::assertStringContainsString('[data-color-scheme="dark"]', $css);
         self::assertStringContainsString('--token-color-primary-base: #1D4ED8;', $css);
     }
 
@@ -115,7 +115,7 @@ final class CssGeneratorTest extends TestCase
 
         $css = $this->subject->generate($theme);
 
-        self::assertStringNotContainsString('[data-theme="dark"]', $css);
+        self::assertStringNotContainsString('[data-color-scheme="dark"]', $css);
     }
 
     #[Test]
@@ -131,9 +131,9 @@ final class CssGeneratorTest extends TestCase
 
         $css = $this->subject->generate($theme);
 
-        self::assertStringContainsString('[data-theme="dark"]', $css);
+        self::assertStringContainsString('[data-color-scheme="dark"]', $css);
         // Dark mode block must contain the explicit dark secondary color
-        $darkBlockStart = strpos($css, '[data-theme="dark"]');
+        $darkBlockStart = strpos($css, '[data-color-scheme="dark"]');
         self::assertNotFalse($darkBlockStart);
         $darkBlock = substr($css, $darkBlockStart);
         self::assertStringContainsString('--typo3-scaffold-header-bg: #0F2A4A;', $darkBlock);
