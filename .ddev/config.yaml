@@ -1,0 +1,21 @@
+name: typo3-backend-themes
+type: php
+docroot: .Build
+php_version: "8.2"
+webserver_type: apache-fpm
+router_http_port: "80"
+router_https_port: "443"
+xdebug_enabled: false
+additional_hostnames:
+  - 14.typo3-backend-themes
+additional_fqdns: []
+database:
+  type: mariadb
+  version: "10.11"
+webimage_extra_packages: [libxml2-utils, php8.2-pcov]
+use_dns_when_possible: true
+corepack_enable: false
+hooks:
+  post-start:
+    - exec: composer install --no-scripts
+    - exec: mkdir -p /var/www/html/.Build/ && cp /var/www/html/.ddev/.setup/templates/* /var/www/html/.Build/

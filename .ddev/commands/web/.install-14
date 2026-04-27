@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. .ddev/.setup/scripts/utils.sh
+
+pre_setup 14
+
+post_setup
