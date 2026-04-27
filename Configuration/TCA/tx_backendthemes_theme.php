@@ -32,7 +32,6 @@ return [
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
                     --palette--;;general,
                     --palette--;;colors,
-                --div--;LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.darkmode,
                     --palette--;;darkmode,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                     hidden

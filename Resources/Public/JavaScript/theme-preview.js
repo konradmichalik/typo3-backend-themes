@@ -145,10 +145,10 @@ function updatePreview() {
     const light = container.querySelector('[data-preview-mode="light"]');
     if (light) {
         const bg = (autoSec || !secondary) ? deriveSidebarColor(primary, true) : secondary;
-        const accent = deriveIconAccent(primary, true);
         light.querySelectorAll('[data-preview-sidebar]').forEach(el => {
             el.style.backgroundColor = bg;
-            el.style.setProperty('--icon-color-accent', accent);
+            // Multi-color icons: currentColor = white (text), --icon-color-accent = primary color
+            el.style.setProperty('--icon-color-accent', primary);
         });
         light.querySelectorAll('[data-preview-header]').forEach(el => el.style.backgroundColor = bg);
     }
@@ -158,10 +158,9 @@ function updatePreview() {
     if (dark) {
         const ep = dkPrimary || primary;
         const bg = dkSecondary || ((autoSec || !secondary) ? deriveSidebarColor(ep, false) : secondary);
-        const accent = deriveIconAccent(ep, false);
         dark.querySelectorAll('[data-preview-sidebar]').forEach(el => {
             el.style.backgroundColor = bg;
-            el.style.setProperty('--icon-color-accent', accent);
+            el.style.setProperty('--icon-color-accent', ep);
         });
         dark.querySelectorAll('[data-preview-header]').forEach(el => el.style.backgroundColor = bg);
     }
