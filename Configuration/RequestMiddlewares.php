@@ -13,6 +13,15 @@ declare(strict_types=1);
 
 return [
     'backend' => [
+        'konradmichalik/backend-themes/css-injection' => [
+            'target' => \KonradMichalik\Typo3BackendThemes\Middleware\ThemeCssInjectionMiddleware::class,
+            'before' => [
+                'typo3/cms-backend/output-compression',
+            ],
+            'after' => [
+                'typo3/cms-backend/authentication',
+            ],
+        ],
         'konradmichalik/backend-themes/theme-change-notification' => [
             'target' => \KonradMichalik\Typo3BackendThemes\Middleware\ThemeChangeNotificationMiddleware::class,
             'before' => [
