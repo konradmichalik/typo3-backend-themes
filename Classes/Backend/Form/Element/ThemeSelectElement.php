@@ -30,8 +30,14 @@ final class ThemeSelectElement extends AbstractFormElement
     {
         $resultArray = $this->initializeResultArray();
 
-        $currentValue = (string)($this->data['parameterArray']['itemFormElValue'] ?? 'fresh');
-        $fieldName = $this->data['parameterArray']['itemFormElName'] ?? '';
+        $parameterArray = $this->data['parameterArray'] ?? [];
+        $currentValue = (string)($parameterArray['itemFormElValue'] ?? 'fresh');
+        $fieldName = (string)($parameterArray['itemFormElName'] ?? '');
+
+        // Fallback: construct field name from table/field context if not provided
+        if ($fieldName === '') {
+            $fieldName = 'data[user_settings][theme]';
+        }
 
         $themeService = GeneralUtility::getContainer()->get(ThemeService::class);
         $customThemes = $themeService->getAllThemes();
