@@ -18,9 +18,11 @@ defined('TYPO3') || exit;
 ExtensionManagementUtility::addUserSetting(
     'backendTheme',
     [
-        'type' => 'user',
-        'renderType' => 'backendThemeSelect',
         'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang.xlf:userSettings.backendTheme',
+        'config' => [
+            'type' => 'user',
+            'renderType' => 'backendThemeSelect',
+        ],
     ],
     'after:theme',
 );
