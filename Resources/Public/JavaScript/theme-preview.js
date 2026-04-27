@@ -56,43 +56,46 @@ function readAutoSecondary() {
     return el.checked || el.value === '1';
 }
 
-const PREVIEW_HTML = `
-<div data-theme-preview style="margin:16px 0;">
-    <div style="display:flex;gap:16px;">
-        <div data-preview-mode="light" style="flex:1;">
-            <div style="margin-bottom:6px;font-weight:600;font-size:12px;">Light</div>
-            <div style="display:flex;border:1px solid #ccc;border-radius:4px;overflow:hidden;height:100px;">
-                <div data-preview-sidebar style="width:40px;display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:6px;background:#ccc;">
-                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#aaa;"></div>
-                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#aaa;"></div>
-                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#aaa;"></div>
-                </div>
-                <div style="flex:1;display:flex;flex-direction:column;background:#f5f5f5;">
-                    <div data-preview-header style="height:28px;background:#ddd;display:flex;align-items:center;padding:0 8px;">
-                        <span style="color:#fff;font-size:10px;">Header</span>
-                    </div>
-                    <div style="flex:1;padding:6px;"><div style="height:100%;background:#fff;border:1px solid #e0e0e0;border-radius:2px;"></div></div>
-                </div>
-            </div>
-        </div>
-        <div data-preview-mode="dark" style="flex:1;">
-            <div style="margin-bottom:6px;font-weight:600;font-size:12px;">Dark</div>
-            <div style="display:flex;border:1px solid #444;border-radius:4px;overflow:hidden;height:100px;">
-                <div data-preview-sidebar style="width:40px;display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:6px;background:#222;">
-                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#333;"></div>
-                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#333;"></div>
-                    <div data-preview-icon style="width:16px;height:16px;border-radius:3px;background:#333;"></div>
-                </div>
-                <div style="flex:1;display:flex;flex-direction:column;background:#1e1e1e;">
-                    <div data-preview-header style="height:28px;background:#2d2d2d;display:flex;align-items:center;padding:0 8px;">
-                        <span style="color:#fff;font-size:10px;">Header</span>
-                    </div>
-                    <div style="flex:1;padding:6px;"><div style="height:100%;background:#2a2a2a;border:1px solid #444;border-radius:2px;"></div></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>`;
+const MODULE_ICONS = `
+<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" opacity="0.7"><path d="M2 1h12a1 1 0 011 1v12a1 1 0 01-1 1H2a1 1 0 01-1-1V2a1 1 0 011-1zm1 2v10h10V3H3z"/></svg>
+<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" opacity="0.7"><path d="M1 2h14v2H1zm0 4h14v2H1zm0 4h14v2H1z"/></svg>
+<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" opacity="0.7"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
+<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" opacity="0.7"><path d="M1 1h6v6H1zm8 0h6v6H9zM1 9h14v2H1zm0 4h10v2H1z"/></svg>
+`.trim().split('\n');
+
+function buildSidebar(mode) {
+    const bg = mode === 'light' ? '#ccc' : '#222';
+    const iconBg = mode === 'light' ? '#aaa' : '#333';
+    const icons = MODULE_ICONS.map(svg =>
+        '<div data-preview-icon style="width:22px;height:22px;border-radius:4px;background:' + iconBg + ';display:flex;align-items:center;justify-content:center;color:#fff;">' + svg + '</div>'
+    ).join('');
+    return '<div data-preview-sidebar style="width:44px;display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:4px;background:' + bg + ';">' + icons + '</div>';
+}
+
+function buildPreviewPanel(mode) {
+    const isLight = mode === 'light';
+    const border = isLight ? '#ccc' : '#444';
+    const contentBg = isLight ? '#f5f5f5' : '#1e1e1e';
+    const headerBg = isLight ? '#ddd' : '#2d2d2d';
+    const boxBg = isLight ? '#fff' : '#2a2a2a';
+    const boxBorder = isLight ? '#e0e0e0' : '#444';
+    return '<div data-preview-mode="' + mode + '" style="flex:1;">' +
+        '<div style="margin-bottom:6px;font-weight:600;font-size:12px;">' + (isLight ? 'Light' : 'Dark') + '</div>' +
+        '<div style="display:flex;border:1px solid ' + border + ';border-radius:4px;overflow:hidden;height:120px;">' +
+            buildSidebar(mode) +
+            '<div style="flex:1;display:flex;flex-direction:column;background:' + contentBg + ';">' +
+                '<div data-preview-header style="height:28px;background:' + headerBg + ';display:flex;align-items:center;padding:0 8px;">' +
+                    '<span style="color:#fff;font-size:10px;">Header</span>' +
+                '</div>' +
+                '<div style="flex:1;padding:6px;"><div style="height:100%;background:' + boxBg + ';border:1px solid ' + boxBorder + ';border-radius:2px;"></div></div>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
+}
+
+const PREVIEW_HTML = '<div data-theme-preview style="margin:16px 0;"><div style="display:flex;gap:16px;">' +
+    buildPreviewPanel('light') + buildPreviewPanel('dark') +
+'</div></div>';
 
 function injectPreview() {
     if (document.querySelector('[data-theme-preview]')) return;

@@ -17,7 +17,7 @@ return [
         'security' => [
             'ignorePageTypeRestriction' => true,
         ],
-        'iconIdentifier' => 'module-appearance',
+        'iconIdentifier' => 'actions-brush',
         'delete' => 'deleted',
         'enablecolumns' => [
             'disabled' => 'hidden',
@@ -98,6 +98,7 @@ return [
         ],
         'auto_secondary' => [
             'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.auto_secondary',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
@@ -106,9 +107,6 @@ return [
                     [
                         'label' => '',
                     ],
-                ],
-                'behaviour' => [
-                    'onChange' => 'reload',
                 ],
             ],
         ],
