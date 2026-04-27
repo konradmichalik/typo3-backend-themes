@@ -20,6 +20,8 @@
 	},
 	"replace": {
 		"psr/http-message": "*",
+		"psr/http-server-handler": "*",
+		"psr/http-server-middleware": "*",
 		"typo3/cms-core": "*",
 		"typo3/cms-extbase": "*"
 	},
