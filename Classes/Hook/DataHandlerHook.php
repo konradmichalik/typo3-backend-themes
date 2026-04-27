@@ -13,10 +13,21 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3BackendThemes\Hook;
 
-use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\{Connection, ConnectionPool};
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+
+/**
+ * DataHandlerHook.
+ *
+ * @author Konrad Michalik <hej@konradmichalik.dev>
+ * @license GPL-2.0-or-later
+ */
 
 final readonly class DataHandlerHook
 {
@@ -32,22 +43,32 @@ final readonly class DataHandlerHook
         array &$fieldArray,
         DataHandler $dataHandler,
     ): void {
-        if ($table !== self::TABLE_NAME) {
+        if (self::TABLE_NAME !== $table) {
             return;
         }
 
-        if (!isset($fieldArray['is_default']) || (int)$fieldArray['is_default'] !== 1) {
+        $this->enforceSingleDefault($status, $id, $fieldArray, $dataHandler);
+        $this->addReloadMessage();
+    }
+
+    private function enforceSingleDefault(
+        string $status,
+        int|string $id,
+        array &$fieldArray,
+        DataHandler $dataHandler,
+    ): void {
+        if (!isset($fieldArray['is_default']) || 1 !== (int) $fieldArray['is_default']) {
             return;
         }
 
         if ('new' === $status) {
             $id = $dataHandler->substNEWwithIDs[$id] ?? 0;
-            if (0 === (int)$id) {
+            if (0 === (int) $id) {
                 return;
             }
         }
 
-        $uid = (int)$id;
+        $uid = (int) $id;
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_NAME);
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
         $queryBuilder
@@ -55,8 +76,22 @@ final readonly class DataHandlerHook
             ->set('is_default', 0)
             ->where(
                 $queryBuilder->expr()->eq('is_default', $queryBuilder->createNamedParameter(1, Connection::PARAM_INT)),
-                $queryBuilder->expr()->neq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT))
+                $queryBuilder->expr()->neq('uid', $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)),
             )
             ->executeStatement();
+    }
+
+    private function addReloadMessage(): void
+    {
+        $flashMessage = GeneralUtility::makeInstance(
+            FlashMessage::class,
+            'Please reload the page for the theme changes to take effect.',
+            'Theme updated',
+            ContextualFeedbackSeverity::INFO,
+        );
+
+        GeneralUtility::makeInstance(FlashMessageService::class)
+            ->getMessageQueueByIdentifier()
+            ->enqueue($flashMessage);
     }
 }

@@ -15,7 +15,7 @@ namespace KonradMichalik\Typo3BackendThemes\Backend\ToolbarItems;
 
 use KonradMichalik\Typo3BackendThemes\Service\{CssGenerator, ThemeService};
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
-use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Page\{JavaScriptModuleInstruction, PageRenderer};
 
 
 /**
@@ -40,6 +40,10 @@ final readonly class ThemeItem implements ToolbarItemInterface
 
     public function getItem(): string
     {
+        $this->pageRenderer->getJavaScriptRenderer()->addJavaScriptModuleInstruction(
+            JavaScriptModuleInstruction::create('@konradmichalik/backend-themes/theme-reload-notice.js'),
+        );
+
         $backendUser = $GLOBALS['BE_USER'] ?? null;
         if (null === $backendUser) {
             return '';
