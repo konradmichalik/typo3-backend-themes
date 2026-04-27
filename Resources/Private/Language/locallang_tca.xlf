@@ -15,23 +15,26 @@
             <trans-unit id="tx_backendthemes_theme.secondary_color">
                 <source>Secondary Color</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.auto_secondary">
-                <source>Derive secondary color from primary</source>
+            <trans-unit id="tx_backendthemes_theme.secondary_color.description">
+                <source>Optional override for the header and sidebar background color. If left empty, the color is automatically derived from the primary color.</source>
             </trans-unit>
             <trans-unit id="tx_backendthemes_theme.darkmode_primary_color">
                 <source>Primary Color (Dark Mode)</source>
             </trans-unit>
+            <trans-unit id="tx_backendthemes_theme.darkmode_primary_color.description">
+                <source>Optional override for icons and accents in dark mode. If left empty, the primary color is used with automatic dark mode adjustments.</source>
+            </trans-unit>
             <trans-unit id="tx_backendthemes_theme.darkmode_secondary_color">
                 <source>Secondary Color (Dark Mode)</source>
+            </trans-unit>
+            <trans-unit id="tx_backendthemes_theme.darkmode_secondary_color.description">
+                <source>Optional override for header and sidebar in dark mode. If left empty, the color is derived from the dark mode primary color.</source>
             </trans-unit>
             <trans-unit id="tx_backendthemes_theme.is_default">
                 <source>Default Theme</source>
             </trans-unit>
-            <trans-unit id="palette.colors">
-                <source>Colors</source>
-            </trans-unit>
-            <trans-unit id="palette.darkmode">
-                <source>Dark Mode Override</source>
+            <trans-unit id="palette.overrides">
+                <source>Overrides</source>
             </trans-unit>
         </body>
     </file>

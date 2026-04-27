@@ -13,6 +13,14 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3BackendThemes\Service;
 
+
+/**
+ * CssGenerator.
+ *
+ * @author Konrad Michalik <hej@konradmichalik.dev>
+ * @license GPL-2.0-or-later
+ */
+
 final class CssGenerator
 {
     private const HEX_COLOR_PATTERN = '/^#[A-Fa-f0-9]{6}$/';
@@ -24,39 +32,27 @@ final class CssGenerator
      */
     public function generate(array $theme): string
     {
-        $primaryColor = (string)($theme['primary_color'] ?? '');
+        $primaryColor = (string) ($theme['primary_color'] ?? '');
 
         if (!$this->isValidHexColor($primaryColor)) {
             return '';
         }
 
-        $autoSecondary = (bool)($theme['auto_secondary'] ?? true);
-        $secondaryColor = (string)($theme['secondary_color'] ?? '');
-        if ('' !== $secondaryColor && !$this->isValidHexColor($secondaryColor)) {
-            $secondaryColor = '';
-        }
-        $darkmodePrimaryColor = (string)($theme['darkmode_primary_color'] ?? '');
-        if ('' !== $darkmodePrimaryColor && !$this->isValidHexColor($darkmodePrimaryColor)) {
-            $darkmodePrimaryColor = '';
-        }
-        $darkmodeSecondaryColor = (string)($theme['darkmode_secondary_color'] ?? '');
-        if ('' !== $darkmodeSecondaryColor && !$this->isValidHexColor($darkmodeSecondaryColor)) {
-            $darkmodeSecondaryColor = '';
-        }
+        $secondaryColor = $this->validateColor((string) ($theme['secondary_color'] ?? ''));
+        $darkmodePrimary = $this->validateColor((string) ($theme['darkmode_primary_color'] ?? ''));
+        $darkmodeSecondary = $this->validateColor((string) ($theme['darkmode_secondary_color'] ?? ''));
 
-        $scaffoldBg = $this->resolveScaffoldBg($autoSecondary, $secondaryColor);
+        $scaffoldBg = '' !== $secondaryColor
+            ? $secondaryColor
+            : 'light-dark(hsl(from var(--token-color-primary-base) h 40% 20%), hsl(from var(--token-color-primary-base) h 20% 10%))';
 
         $css = $this->buildRootBlock($primaryColor, $scaffoldBg);
         $css .= "\n";
         $css .= $this->buildIconAccentBlock();
 
-        if ($darkmodePrimaryColor !== '' || $darkmodeSecondaryColor !== '') {
+        if ('' !== $darkmodePrimary || '' !== $darkmodeSecondary) {
             $css .= "\n";
-            $css .= $this->buildDarkModeBlock(
-                $darkmodePrimaryColor,
-                $darkmodeSecondaryColor,
-                $autoSecondary
-            );
+            $css .= $this->buildDarkModeBlock($darkmodePrimary, $darkmodeSecondary, '' === $secondaryColor);
         }
 
         return $css;
@@ -64,16 +60,12 @@ final class CssGenerator
 
     private function isValidHexColor(string $color): bool
     {
-        return preg_match(self::HEX_COLOR_PATTERN, $color) === 1;
+        return 1 === preg_match(self::HEX_COLOR_PATTERN, $color);
     }
 
-    private function resolveScaffoldBg(bool $autoSecondary, string $secondaryColor): string
+    private function validateColor(string $color): string
     {
-        if ($autoSecondary) {
-            return 'light-dark(hsl(from var(--token-color-primary-base) h 40% 20%), hsl(from var(--token-color-primary-base) h 20% 10%))';
-        }
-
-        return $secondaryColor;
+        return '' !== $color && $this->isValidHexColor($color) ? $color : '';
     }
 
     private function buildRootBlock(string $primaryColor, string $scaffoldBg): string
@@ -101,25 +93,26 @@ CSS;
     }
 
     private function buildDarkModeBlock(
-        string $darkmodePrimaryColor,
-        string $darkmodeSecondaryColor,
-        bool $autoSecondary
+        string $darkmodePrimary,
+        string $darkmodeSecondary,
+        bool $secondaryIsDerived,
     ): string {
         $lines = [];
 
-        if ($darkmodePrimaryColor !== '') {
-            $lines[] = "    --token-color-primary-base: {$darkmodePrimaryColor};";
+        if ('' !== $darkmodePrimary) {
+            $lines[] = "    --token-color-primary-base: {$darkmodePrimary};";
         }
 
-        $darkScaffoldBg = $this->resolveDarkScaffoldBg(
-            $darkmodePrimaryColor,
-            $darkmodeSecondaryColor,
-            $autoSecondary
-        );
+        if ('' !== $darkmodeSecondary) {
+            $lines[] = "    --typo3-scaffold-header-bg: {$darkmodeSecondary};";
+            $lines[] = "    --typo3-scaffold-sidebar-bg: {$darkmodeSecondary};";
+        } elseif ('' !== $darkmodePrimary && $secondaryIsDerived) {
+            $lines[] = '    --typo3-scaffold-header-bg: hsl(from var(--token-color-primary-base) h 20% 10%);';
+            $lines[] = '    --typo3-scaffold-sidebar-bg: hsl(from var(--token-color-primary-base) h 20% 10%);';
+        }
 
-        if ($darkScaffoldBg !== '') {
-            $lines[] = "    --typo3-scaffold-header-bg: {$darkScaffoldBg};";
-            $lines[] = "    --typo3-scaffold-sidebar-bg: {$darkScaffoldBg};";
+        if ([] === $lines) {
+            return '';
         }
 
         $innerCss = implode("\n", $lines);
@@ -129,21 +122,5 @@ CSS;
 {$innerCss}
 }
 CSS;
-    }
-
-    private function resolveDarkScaffoldBg(
-        string $darkmodePrimaryColor,
-        string $darkmodeSecondaryColor,
-        bool $autoSecondary
-    ): string {
-        if ($darkmodeSecondaryColor !== '') {
-            return $darkmodeSecondaryColor;
-        }
-
-        if ($darkmodePrimaryColor !== '' && $autoSecondary) {
-            return 'hsl(from var(--token-color-primary-base) h 20% 10%)';
-        }
-
-        return '';
     }
 }

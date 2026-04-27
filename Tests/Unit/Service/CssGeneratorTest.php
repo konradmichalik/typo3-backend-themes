@@ -14,9 +14,16 @@ declare(strict_types=1);
 namespace KonradMichalik\Typo3BackendThemes\Tests\Unit\Service;
 
 use KonradMichalik\Typo3BackendThemes\Service\CssGenerator;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\{DataProvider, Test};
 use PHPUnit\Framework\TestCase;
+
+
+/**
+ * CssGeneratorTest.
+ *
+ * @author Konrad Michalik <hej@konradmichalik.dev>
+ * @license GPL-2.0-or-later
+ */
 
 final class CssGeneratorTest extends TestCase
 {
@@ -32,7 +39,6 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'auto_secondary' => 1,
             'secondary_color' => '',
             'darkmode_primary_color' => '',
             'darkmode_secondary_color' => '',
@@ -44,11 +50,10 @@ final class CssGeneratorTest extends TestCase
     }
 
     #[Test]
-    public function generateWithAutoSecondaryUsesHslDerivedColors(): void
+    public function generateWithEmptySecondaryUsesHslDerivedColors(): void
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'auto_secondary' => 1,
             'secondary_color' => '',
             'darkmode_primary_color' => '',
             'darkmode_secondary_color' => '',
@@ -58,7 +63,7 @@ final class CssGeneratorTest extends TestCase
 
         self::assertStringContainsString(
             'light-dark(hsl(from var(--token-color-primary-base) h 40% 20%), hsl(from var(--token-color-primary-base) h 20% 10%))',
-            $css
+            $css,
         );
         self::assertStringContainsString('--typo3-scaffold-header-bg:', $css);
         self::assertStringContainsString('--typo3-scaffold-sidebar-bg:', $css);
@@ -69,7 +74,6 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'auto_secondary' => 0,
             'secondary_color' => '#1E3A5F',
             'darkmode_primary_color' => '',
             'darkmode_secondary_color' => '',
@@ -81,7 +85,7 @@ final class CssGeneratorTest extends TestCase
         self::assertStringContainsString('--typo3-scaffold-sidebar-bg: #1E3A5F;', $css);
         self::assertStringNotContainsString(
             'light-dark(hsl(from var(--token-color-primary-base) h 40% 20%)',
-            $css
+            $css,
         );
     }
 
@@ -90,7 +94,6 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'auto_secondary' => 1,
             'secondary_color' => '',
             'darkmode_primary_color' => '#1D4ED8',
             'darkmode_secondary_color' => '',
@@ -107,7 +110,6 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'auto_secondary' => 1,
             'secondary_color' => '',
             'darkmode_primary_color' => '',
             'darkmode_secondary_color' => '',
@@ -123,7 +125,6 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'auto_secondary' => 0,
             'secondary_color' => '#1E3A5F',
             'darkmode_primary_color' => '#1D4ED8',
             'darkmode_secondary_color' => '#0F2A4A',
@@ -145,7 +146,6 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'auto_secondary' => 1,
             'secondary_color' => '',
             'darkmode_primary_color' => '',
             'darkmode_secondary_color' => '',
@@ -154,7 +154,7 @@ final class CssGeneratorTest extends TestCase
         $css = $this->subject->generate($theme);
 
         self::assertStringContainsString('--typo3-icons-accent:', $css);
-        self::assertStringContainsString('[data-theme] .scaffold-sidebar', $css);
+        self::assertStringContainsString('.scaffold-sidebar', $css);
     }
 
     #[Test]
@@ -162,7 +162,6 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'auto_secondary' => 1,
             'secondary_color' => '',
             'darkmode_primary_color' => '',
             'darkmode_secondary_color' => '',
@@ -181,19 +180,19 @@ final class CssGeneratorTest extends TestCase
     {
         return [
             'empty string' => [
-                ['primary_color' => '', 'auto_secondary' => 1, 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
+                ['primary_color' => '', 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
             ],
             'no hash prefix' => [
-                ['primary_color' => '3B82F6', 'auto_secondary' => 1, 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
+                ['primary_color' => '3B82F6', 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
             ],
             'invalid hex characters' => [
-                ['primary_color' => '#ZZZZZZ', 'auto_secondary' => 1, 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
+                ['primary_color' => '#ZZZZZZ', 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
             ],
             'too short 3-char hex' => [
-                ['primary_color' => '#F0F', 'auto_secondary' => 1, 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
+                ['primary_color' => '#F0F', 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
             ],
             'rgb format' => [
-                ['primary_color' => 'rgb(59, 130, 246)', 'auto_secondary' => 1, 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
+                ['primary_color' => 'rgb(59, 130, 246)', 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
             ],
         ];
     }

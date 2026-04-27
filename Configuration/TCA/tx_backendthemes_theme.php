@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the "backend_themes" TYPO3 CMS extension.
  *
@@ -17,7 +19,9 @@ return [
         'security' => [
             'ignorePageTypeRestriction' => true,
         ],
-        'iconIdentifier' => 'backend-themes-record',
+        'typeicon_classes' => [
+            'default' => 'backend-themes-record',
+        ],
         'delete' => 'deleted',
         'enablecolumns' => [
             'disabled' => 'hidden',
@@ -31,8 +35,7 @@ return [
             'showitem' => '
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
                     --palette--;;general,
-                    --palette--;;colors,
-                    --palette--;;darkmode,
+                    --palette--;;overrides,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                     hidden
             ',
@@ -40,15 +43,11 @@ return [
     ],
     'palettes' => [
         'general' => [
-            'showitem' => 'title, is_default',
+            'showitem' => 'title, is_default, --linebreak--, primary_color',
         ],
-        'colors' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.colors',
-            'showitem' => 'primary_color, --linebreak--, auto_secondary, secondary_color',
-        ],
-        'darkmode' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.darkmode',
-            'showitem' => 'darkmode_primary_color, darkmode_secondary_color',
+        'overrides' => [
+            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.overrides',
+            'showitem' => 'secondary_color, --linebreak--, darkmode_primary_color, darkmode_secondary_color',
         ],
     ],
     'columns' => [
@@ -90,33 +89,21 @@ return [
         ],
         'secondary_color' => [
             'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.secondary_color',
-            'displayCond' => 'FIELD:auto_secondary:=:0',
+            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.secondary_color.description',
             'config' => [
                 'type' => 'color',
             ],
         ],
-        'auto_secondary' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.auto_secondary',
-            'onChange' => 'reload',
-            'config' => [
-                'type' => 'check',
-                'renderType' => 'checkboxToggle',
-                'default' => 1,
-                'items' => [
-                    [
-                        'label' => '',
-                    ],
-                ],
-            ],
-        ],
         'darkmode_primary_color' => [
             'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_primary_color',
+            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_primary_color.description',
             'config' => [
                 'type' => 'color',
             ],
         ],
         'darkmode_secondary_color' => [
             'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_secondary_color',
+            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_secondary_color.description',
             'config' => [
                 'type' => 'color',
             ],

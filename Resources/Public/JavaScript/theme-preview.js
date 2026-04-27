@@ -56,15 +56,6 @@ function readColor(suffix) {
     return '';
 }
 
-function readAutoSecondary() {
-    // TYPO3 checkbox: hidden input with value 0/1
-    const hidden = document.querySelector('input[name$="[auto_secondary]"][type="hidden"]');
-    if (hidden) return hidden.value === '1';
-    const checkbox = document.querySelector('input[name$="[auto_secondary]"]');
-    if (checkbox) return checkbox.checked || checkbox.value === '1';
-    return true;
-}
-
 // Original TYPO3 module icons with multi-color support:
 // - currentColor = main icon color (white on dark sidebar)
 // - var(--icon-color-accent) = accent color derived from primary
@@ -137,27 +128,25 @@ function updatePreview() {
     if (!primary) return;
 
     const secondary = readColor('secondary_color');
-    const autoSec = readAutoSecondary();
     const dkPrimary = readColor('darkmode_primary_color');
     const dkSecondary = readColor('darkmode_secondary_color');
 
-    // Light
+    // Light mode
     const light = container.querySelector('[data-preview-mode="light"]');
     if (light) {
-        const bg = (autoSec || !secondary) ? deriveSidebarColor(primary, true) : secondary;
+        const bg = secondary || deriveSidebarColor(primary, true);
         light.querySelectorAll('[data-preview-sidebar]').forEach(el => {
             el.style.backgroundColor = bg;
-            // Multi-color icons: currentColor = white (text), --icon-color-accent = primary color
             el.style.setProperty('--icon-color-accent', primary);
         });
         light.querySelectorAll('[data-preview-header]').forEach(el => el.style.backgroundColor = bg);
     }
 
-    // Dark
+    // Dark mode
     const dark = container.querySelector('[data-preview-mode="dark"]');
     if (dark) {
         const ep = dkPrimary || primary;
-        const bg = dkSecondary || ((autoSec || !secondary) ? deriveSidebarColor(ep, false) : secondary);
+        const bg = dkSecondary || (secondary || deriveSidebarColor(ep, false));
         dark.querySelectorAll('[data-preview-sidebar]').forEach(el => {
             el.style.backgroundColor = bg;
             el.style.setProperty('--icon-color-accent', ep);
