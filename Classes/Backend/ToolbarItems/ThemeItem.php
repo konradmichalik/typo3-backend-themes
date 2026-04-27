@@ -15,7 +15,7 @@ namespace KonradMichalik\Typo3BackendThemes\Backend\ToolbarItems;
 
 use KonradMichalik\Typo3BackendThemes\Service\{CssGenerator, ThemeService};
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
-use TYPO3\CMS\Core\Page\{JavaScriptModuleInstruction, PageRenderer};
+use TYPO3\CMS\Core\Page\PageRenderer;
 
 
 /**
@@ -40,9 +40,20 @@ final readonly class ThemeItem implements ToolbarItemInterface
 
     public function getItem(): string
     {
-        $this->pageRenderer->getJavaScriptRenderer()->addJavaScriptModuleInstruction(
-            JavaScriptModuleInstruction::create('@konradmichalik/backend-themes/theme-reload-notice.js'),
-        );
+        $this->pageRenderer->addJsInlineCode('backend_themes_reload_notice', <<<'JS'
+            (function() {
+                var form = document.querySelector('form[name="usersetup"]');
+                if (!form) return;
+                var sel = form.querySelector('select[name*="[theme]"]');
+                if (!sel) return;
+                var init = sel.value;
+                sel.addEventListener('change', function() {
+                    if (sel.value !== init && top.TYPO3 && top.TYPO3.Notification) {
+                        top.TYPO3.Notification.info('Theme changed', 'Please save and reload the page for the theme to take effect.', 5);
+                    }
+                });
+            })();
+            JS);
 
         $backendUser = $GLOBALS['BE_USER'] ?? null;
         if (null === $backendUser) {
