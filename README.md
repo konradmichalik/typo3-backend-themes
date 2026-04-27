@@ -5,6 +5,8 @@
 
 TYPO3 v14 extension to create custom backend color themes. Define primary and secondary colors, configure dark mode overrides, and let backend users choose their preferred theme.
 
+![Backend with custom theme applied](Documentation/Images/backend-with-theme.jpg)
+
 ## ✨ Features
 
 - **Custom color themes** as database records (root level)
@@ -38,6 +40,8 @@ composer require konradmichalik/typo3-backend-themes
 3. Set a **title** and choose a **primary color**
 4. Save — the live preview shows light and dark mode side by side
 
+![Theme record with live preview](Documentation/Images/theme-record-preview.jpg)
+
 > [!TIP]
 > Check **Default Theme** to mark it as the admin-recommended theme. It will appear at the top of the user dropdown with "(Default)" suffix.
 
@@ -64,16 +68,7 @@ composer require konradmichalik/typo3-backend-themes
 
 Users select their theme under **User Settings → Appearance → Theme**:
 
-```
-Corporate Blue (Default)     ← Admin-recommended
-── Standard Themes ──
-Fresh
-Modern
-Classic
-── Custom Themes ──
-Marketing Red
-Nature Green
-```
+![Theme dropdown in User Settings](Documentation/Images/user-settings-dropdown.jpg)
 
 Standard TYPO3 themes continue to work as before. Custom themes apply color overrides via CSS custom properties.
 
