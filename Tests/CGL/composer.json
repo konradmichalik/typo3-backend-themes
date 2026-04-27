@@ -19,6 +19,7 @@
 		"typo3/coding-standards": "^0.7 || ^0.8"
 	},
 	"replace": {
+		"psr/http-message": "*",
 		"typo3/cms-core": "*",
 		"typo3/cms-extbase": "*"
 	},
@@ -32,19 +33,36 @@
 		"sort-packages": true
 	},
 	"scripts": {
-		"analyze": ["@analyze:dependencies"],
+		"analyze": [
+			"@analyze:dependencies"
+		],
 		"analyze:dependencies": "composer-dependency-analyser --composer-json ../../composer.json",
-		"fix": ["@fix:composer", "@fix:editorconfig", "@fix:php"],
-		"fix:composer": ["@composer normalize", "@composer normalize ../../composer.json"],
+		"fix": [
+			"@fix:composer",
+			"@fix:editorconfig",
+			"@fix:php"
+		],
+		"fix:composer": [
+			"@composer normalize",
+			"@composer normalize ../../composer.json"
+		],
 		"fix:editorconfig": "@lint:editorconfig --fix",
 		"fix:php": "@php vendor/bin/php-cs-fixer --config=.php-cs-fixer.php fix",
-		"lint": ["@lint:composer", "@lint:editorconfig", "@lint:php"],
+		"lint": [
+			"@lint:composer",
+			"@lint:editorconfig",
+			"@lint:php"
+		],
 		"lint:composer": "@fix:composer --dry-run",
 		"lint:editorconfig": "ec --git-only",
 		"lint:php": "@fix:php --dry-run",
-		"migration": ["@migration:rector"],
+		"migration": [
+			"@migration:rector"
+		],
 		"migration:rector": "rector process -c rector.php",
-		"sca": ["@sca:php"],
+		"sca": [
+			"@sca:php"
+		],
 		"sca:php": "phpstan analyse --memory-limit=2G"
 	}
 }
