@@ -24,10 +24,11 @@ $GLOBALS['TCA']['be_users']['columns']['user_settings']['columns']['theme'] = [
         'type' => 'select',
         'renderType' => 'selectSingle',
         'items' => [
+            ['label' => '── Standard Themes ──', 'value' => '--div--'],
             ['label' => 'backend.messages:theme.fresh', 'value' => 'fresh'],
             ['label' => 'backend.messages:theme.modern', 'value' => 'modern'],
             ['label' => 'backend.messages:theme.classic', 'value' => 'classic'],
         ],
-        'itemsProcFunc' => ThemeItemsProcFunc::class . '->addCustomThemes',
+        'itemsProcFunc' => ThemeItemsProcFunc::class.'->addCustomThemes',
     ],
 ];
