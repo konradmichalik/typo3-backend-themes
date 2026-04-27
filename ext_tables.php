@@ -16,12 +16,11 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 defined('TYPO3') || exit;
 
 ExtensionManagementUtility::addUserSetting(
-    label: 'LLL:EXT:backend_themes/Resources/Private/Language/locallang.xlf:userSettings.backendTheme',
-    field: 'backendTheme',
-    config: [
+    'backendTheme',
+    [
         'type' => 'user',
         'renderType' => 'backendThemeSelect',
         'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang.xlf:userSettings.backendTheme',
     ],
-    after: 'theme',
+    'after:theme',
 );
