@@ -40,20 +40,37 @@ final readonly class ThemeItemsProcFunc
             return;
         }
 
-        $params['items'][] = [
-            'label' => '── Custom Themes ──',
-            'value' => '--div--',
-        ];
-
+        // Find the default theme and place it at the very top of the list
+        $defaultTheme = null;
+        $otherThemes = [];
         foreach ($customThemes as $theme) {
-            $label = (string) $theme['title'];
             if ((int) $theme['is_default']) {
-                $label .= ' ★';
+                $defaultTheme = $theme;
+            } else {
+                $otherThemes[] = $theme;
             }
+        }
+
+        if (null !== $defaultTheme) {
+            // Insert default theme before all standard themes
+            array_unshift($params['items'], [
+                'label' => (string) $defaultTheme['title'].' (Default)',
+                'value' => 'custom_'.(int) $defaultTheme['uid'],
+            ]);
+        }
+
+        if ([] !== $otherThemes) {
             $params['items'][] = [
-                'label' => $label,
-                'value' => 'custom_'.(int) $theme['uid'],
+                'label' => '── Custom Themes ──',
+                'value' => '--div--',
             ];
+
+            foreach ($otherThemes as $theme) {
+                $params['items'][] = [
+                    'label' => (string) $theme['title'],
+                    'value' => 'custom_'.(int) $theme['uid'],
+                ];
+            }
         }
     }
 }
