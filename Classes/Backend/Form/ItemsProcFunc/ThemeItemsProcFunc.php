@@ -15,6 +15,14 @@ namespace KonradMichalik\Typo3BackendThemes\Backend\Form\ItemsProcFunc;
 
 use KonradMichalik\Typo3BackendThemes\Service\ThemeService;
 
+
+/**
+ * ThemeItemsProcFunc.
+ *
+ * @author Konrad Michalik <hej@konradmichalik.dev>
+ * @license GPL-2.0-or-later
+ */
+
 final readonly class ThemeItemsProcFunc
 {
     public function __construct(
@@ -28,7 +36,7 @@ final readonly class ThemeItemsProcFunc
     {
         $customThemes = $this->themeService->getAllThemes();
 
-        if ($customThemes === []) {
+        if ([] === $customThemes) {
             return;
         }
 
@@ -38,9 +46,13 @@ final readonly class ThemeItemsProcFunc
         ];
 
         foreach ($customThemes as $theme) {
+            $label = (string) $theme['title'];
+            if ((int) $theme['is_default']) {
+                $label .= ' ★';
+            }
             $params['items'][] = [
-                'label' => (string)$theme['title'],
-                'value' => 'custom_' . (int)$theme['uid'],
+                'label' => $label,
+                'value' => 'custom_'.(int) $theme['uid'],
             ];
         }
     }
