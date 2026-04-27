@@ -24,7 +24,7 @@ final class ThemeSelectElement extends AbstractFormElement
     {
         $resultArray = $this->initializeResultArray();
 
-        $themeService = GeneralUtility::makeInstance(ThemeService::class);
+        $themeService = GeneralUtility::getContainer()->get(ThemeService::class);
         $themes = $themeService->getAllThemes();
 
         $currentValue = (int)($this->data['parameterArray']['itemFormElValue'] ?? 0);
