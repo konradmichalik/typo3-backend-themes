@@ -89,8 +89,13 @@ CSS;
     private function buildIconAccentBlock(string $primaryColor): string
     {
         return <<<CSS
-html[data-theme] .scaffold-sidebar {
-    --typo3-icons-accent: light-dark(hsl(from {$primaryColor} h s 75%), hsl(from {$primaryColor} h s 70%));
+html[data-theme] .icon,
+html[data-theme] typo3-backend-icon {
+    --icon-color-accent: light-dark(hsl(from {$primaryColor} h s 55%), hsl(from {$primaryColor} h s 45%));
+}
+html[data-theme] .scaffold-sidebar .icon,
+html[data-theme] .scaffold-sidebar typo3-backend-icon {
+    --icon-color-accent: light-dark(hsl(from {$primaryColor} h s 75%), hsl(from {$primaryColor} h s 70%));
 }
 CSS;
     }
