@@ -1,4 +1,0 @@
-.. This is included by all .rst files in this extension.
-
-.. |extension_key| replace:: backend_themes
-.. |release| replace:: 0.1.0
