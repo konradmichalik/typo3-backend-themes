@@ -19,7 +19,7 @@ TYPO3 v14 extension to create custom backend color themes. Define primary and se
 > [!NOTE]
 > Use this extension to subtly establish your project or client branding in the TYPO3 backend. For example, apply corporate colors to the sidebar, header and icons so editors immediately recognize which installation they are working in.
 
-![Backend with custom theme applied](Documentation/Images/backend-with-theme.jpg)
+![screencast.gif](Documentation/Images/screencast.gif)!
 
 ## ✨ Features
 
@@ -35,9 +35,9 @@ TYPO3 v14 extension to create custom backend color themes. Define primary and se
 
 ### Requirements
 
-| Version | TYPO3  | PHP       |
-|---------|--------|-----------|
-| 0.x     | 14.0+  | 8.2 - 8.5 |
+| TYPO3  | PHP       |
+|--------|-----------|
+| 14.0+  | 8.2 - 8.5 |
 
 ### Composer
 
