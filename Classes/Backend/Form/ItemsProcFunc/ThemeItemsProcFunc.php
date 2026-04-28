@@ -57,10 +57,16 @@ final readonly class ThemeItemsProcFunc
         }
 
         if (null !== $defaultTheme) {
-            array_unshift($params['items'], [
-                'label' => (string) $defaultTheme['title'].' (Default)',
-                'value' => 'custom_'.(int) $defaultTheme['uid'],
-            ]);
+            array_unshift($params['items'],
+                [
+                    'label' => '── Default Theme ──',
+                    'value' => '--div--',
+                ],
+                [
+                    'label' => (string) $defaultTheme['title'],
+                    'value' => 'custom_'.(int) $defaultTheme['uid'],
+                ],
+            );
         }
 
         if ([] !== $otherThemes) {
