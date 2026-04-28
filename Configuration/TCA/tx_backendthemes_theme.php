@@ -37,6 +37,7 @@ return [
                     --palette--;;general,
                     primary_color,
                     --palette--;;overrides,
+                    --palette--;;darkmode_overrides,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                     hidden
             ',
@@ -48,7 +49,11 @@ return [
         ],
         'overrides' => [
             'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.overrides',
-            'showitem' => 'secondary_color, --linebreak--, darkmode_primary_color, darkmode_secondary_color',
+            'showitem' => 'header_color, sidebar_color',
+        ],
+        'darkmode_overrides' => [
+            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.darkmode_overrides',
+            'showitem' => 'darkmode_primary_color, --linebreak--, darkmode_header_color, darkmode_sidebar_color',
         ],
     ],
     'columns' => [
@@ -83,9 +88,16 @@ return [
                 'required' => true,
             ],
         ],
-        'secondary_color' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.secondary_color',
-            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.secondary_color.description',
+        'header_color' => [
+            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.header_color',
+            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.header_color.description',
+            'config' => [
+                'type' => 'color',
+            ],
+        ],
+        'sidebar_color' => [
+            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.sidebar_color',
+            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.sidebar_color.description',
             'config' => [
                 'type' => 'color',
             ],
@@ -97,9 +109,16 @@ return [
                 'type' => 'color',
             ],
         ],
-        'darkmode_secondary_color' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_secondary_color',
-            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_secondary_color.description',
+        'darkmode_header_color' => [
+            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_header_color',
+            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_header_color.description',
+            'config' => [
+                'type' => 'color',
+            ],
+        ],
+        'darkmode_sidebar_color' => [
+            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_sidebar_color',
+            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_sidebar_color.description',
             'config' => [
                 'type' => 'color',
             ],

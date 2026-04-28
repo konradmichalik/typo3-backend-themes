@@ -22,6 +22,7 @@ namespace KonradMichalik\Typo3BackendThemes\Service;
 final class CssGenerator
 {
     private const HEX_COLOR_PATTERN = '/^#[A-Fa-f0-9]{6}$/';
+    private const DERIVED_BG = 'light-dark(hsl(from var(--token-color-primary-base) h 40% 20%), hsl(from var(--token-color-primary-base) h 20% 10%))';
 
     /**
      * @param array<string, mixed> $theme
@@ -33,20 +34,16 @@ final class CssGenerator
             return '';
         }
 
-        $secondary = $this->validateColor((string) ($theme['secondary_color'] ?? ''));
+        $header = $this->validateColor((string) ($theme['header_color'] ?? ''));
+        $sidebar = $this->validateColor((string) ($theme['sidebar_color'] ?? ''));
         $dkPrimary = $this->validateColor((string) ($theme['darkmode_primary_color'] ?? ''));
-        $dkSecondary = $this->validateColor((string) ($theme['darkmode_secondary_color'] ?? ''));
+        $dkHeader = $this->validateColor((string) ($theme['darkmode_header_color'] ?? ''));
+        $dkSidebar = $this->validateColor((string) ($theme['darkmode_sidebar_color'] ?? ''));
 
-        $hasExplicitSecondary = '' !== $secondary;
-        $scaffoldBg = $hasExplicitSecondary
-            ? $secondary
-            : 'light-dark(hsl(from var(--token-color-primary-base) h 40% 20%), hsl(from var(--token-color-primary-base) h 20% 10%))';
-
-        // When secondary is explicit, determine if it's light or dark to choose
-        // the right text color. Auto-derived backgrounds are always dark.
-        $scaffoldColor = (!$hasExplicitSecondary || $this->isDarkColor($secondary))
-            ? 'var(--typo3-surface-primary-text)'
-            : 'var(--typo3-text-color-base)';
+        $headerBg = '' !== $header ? $header : self::DERIVED_BG;
+        $sidebarBg = '' !== $sidebar ? $sidebar : self::DERIVED_BG;
+        $headerColor = $this->resolveTextColor($header);
+        $sidebarColor = $this->resolveTextColor($sidebar);
 
         $css = <<<CSS
 html[data-theme] {
@@ -54,11 +51,11 @@ html[data-theme] {
     --token-color-secondary-base: color-mix(in srgb, #737373, var(--token-color-primary-base) var(--typo3-color-state-harmonize));
     --typo3-icons-accent: light-dark(hsl(from {$primary} h s 55%), hsl(from {$primary} h s 45%));
     --icon-color-accent: var(--typo3-icons-accent);
-    --typo3-scaffold-header-color: {$scaffoldColor};
-    --typo3-scaffold-header-bg: {$scaffoldBg};
+    --typo3-scaffold-header-color: {$headerColor};
+    --typo3-scaffold-header-bg: {$headerBg};
     --typo3-scaffold-header-box-shadow: none;
-    --typo3-scaffold-sidebar-color: {$scaffoldColor};
-    --typo3-scaffold-sidebar-bg: {$scaffoldBg};
+    --typo3-scaffold-sidebar-color: {$sidebarColor};
+    --typo3-scaffold-sidebar-bg: {$sidebarBg};
     --typo3-scaffold-sidebar-border-width: 0;
 }
 html[data-theme] .icon,
@@ -71,27 +68,15 @@ html[data-theme] .scaffold-sidebar typo3-backend-icon {
 }
 CSS;
 
-        if ('' !== $dkPrimary || '' !== $dkSecondary) {
-            $darkLines = [];
-            if ('' !== $dkPrimary) {
-                $darkLines[] = "    --token-color-primary-base: {$dkPrimary};";
-            }
-            if ('' !== $dkSecondary) {
-                $darkLines[] = "    --typo3-scaffold-header-bg: {$dkSecondary};";
-                $darkLines[] = "    --typo3-scaffold-sidebar-bg: {$dkSecondary};";
-            } elseif ('' !== $dkPrimary && '' === $secondary) {
-                $darkLines[] = '    --typo3-scaffold-header-bg: hsl(from var(--token-color-primary-base) h 20% 10%);';
-                $darkLines[] = '    --typo3-scaffold-sidebar-bg: hsl(from var(--token-color-primary-base) h 20% 10%);';
-            }
-            if ([] !== $darkLines) {
-                $inner = implode("\n", $darkLines);
-                $css .= <<<CSS
+        $darkLines = $this->buildDarkModeLines($dkPrimary, $dkHeader, $dkSidebar, '' === $header, '' === $sidebar);
+        if ([] !== $darkLines) {
+            $inner = implode("\n", $darkLines);
+            $css .= <<<CSS
 
 html[data-color-scheme="dark"] {
 {$inner}
 }
 CSS;
-            }
         }
 
         return $css;
@@ -107,18 +92,58 @@ CSS;
         return '' !== $color && $this->isValidHexColor($color) ? $color : '';
     }
 
-    /**
-     * Determine if a hex color is dark (relative luminance < 0.5).
-     */
+    private function resolveTextColor(string $bgColor): string
+    {
+        if ('' === $bgColor) {
+            return 'var(--typo3-surface-primary-text)';
+        }
+
+        return $this->isDarkColor($bgColor)
+            ? 'var(--typo3-surface-primary-text)'
+            : 'var(--typo3-text-color-base)';
+    }
+
     private function isDarkColor(string $hex): bool
     {
         $r = hexdec(substr($hex, 1, 2)) / 255;
         $g = hexdec(substr($hex, 3, 2)) / 255;
         $b = hexdec(substr($hex, 5, 2)) / 255;
 
-        // Relative luminance (simplified sRGB)
-        $luminance = 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
+        return (0.2126 * $r + 0.7152 * $g + 0.0722 * $b) < 0.5;
+    }
 
-        return $luminance < 0.5;
+    /**
+     * @return list<string>
+     */
+    private function buildDarkModeLines(
+        string $dkPrimary,
+        string $dkHeader,
+        string $dkSidebar,
+        bool $headerIsDerived,
+        bool $sidebarIsDerived,
+    ): array {
+        if ('' === $dkPrimary && '' === $dkHeader && '' === $dkSidebar) {
+            return [];
+        }
+
+        $lines = [];
+
+        if ('' !== $dkPrimary) {
+            $lines[] = "    --token-color-primary-base: {$dkPrimary};";
+        }
+
+        if ('' !== $dkHeader) {
+            $lines[] = "    --typo3-scaffold-header-bg: {$dkHeader};";
+        } elseif ('' !== $dkPrimary && $headerIsDerived) {
+            $lines[] = '    --typo3-scaffold-header-bg: hsl(from var(--token-color-primary-base) h 20% 10%);';
+        }
+
+        if ('' !== $dkSidebar) {
+            $lines[] = "    --typo3-scaffold-sidebar-bg: {$dkSidebar};";
+        } elseif ('' !== $dkPrimary && $sidebarIsDerived) {
+            $lines[] = '    --typo3-scaffold-sidebar-bg: hsl(from var(--token-color-primary-base) h 20% 10%);';
+        }
+
+        return $lines;
     }
 }

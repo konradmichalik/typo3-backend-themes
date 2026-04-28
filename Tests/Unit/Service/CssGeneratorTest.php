@@ -37,9 +37,11 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'secondary_color' => '',
+            'header_color' => '',
+            'sidebar_color' => '',
             'darkmode_primary_color' => '',
-            'darkmode_secondary_color' => '',
+            'darkmode_header_color' => '',
+            'darkmode_sidebar_color' => '',
         ];
 
         $css = $this->subject->generate($theme);
@@ -52,9 +54,11 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'secondary_color' => '',
+            'header_color' => '',
+            'sidebar_color' => '',
             'darkmode_primary_color' => '',
-            'darkmode_secondary_color' => '',
+            'darkmode_header_color' => '',
+            'darkmode_sidebar_color' => '',
         ];
 
         $css = $this->subject->generate($theme);
@@ -72,9 +76,11 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'secondary_color' => '#1E3A5F',
+            'header_color' => '#1E3A5F',
+            'sidebar_color' => '#1E3A5F',
             'darkmode_primary_color' => '',
-            'darkmode_secondary_color' => '',
+            'darkmode_header_color' => '',
+            'darkmode_sidebar_color' => '',
         ];
 
         $css = $this->subject->generate($theme);
@@ -108,9 +114,11 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'secondary_color' => '',
+            'header_color' => '',
+            'sidebar_color' => '',
             'darkmode_primary_color' => '',
-            'darkmode_secondary_color' => '',
+            'darkmode_header_color' => '',
+            'darkmode_sidebar_color' => '',
         ];
 
         $css = $this->subject->generate($theme);
@@ -123,9 +131,11 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'secondary_color' => '#1E3A5F',
+            'header_color' => '#1E3A5F',
+            'sidebar_color' => '#1E3A5F',
             'darkmode_primary_color' => '#1D4ED8',
-            'darkmode_secondary_color' => '#0F2A4A',
+            'darkmode_header_color' => '#0F2A4A',
+            'darkmode_sidebar_color' => '#0F2A4A',
         ];
 
         $css = $this->subject->generate($theme);
@@ -144,9 +154,11 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'secondary_color' => '',
+            'header_color' => '',
+            'sidebar_color' => '',
             'darkmode_primary_color' => '',
-            'darkmode_secondary_color' => '',
+            'darkmode_header_color' => '',
+            'darkmode_sidebar_color' => '',
         ];
 
         $css = $this->subject->generate($theme);
@@ -160,9 +172,11 @@ final class CssGeneratorTest extends TestCase
     {
         $theme = [
             'primary_color' => '#3B82F6',
-            'secondary_color' => '',
+            'header_color' => '',
+            'sidebar_color' => '',
             'darkmode_primary_color' => '',
-            'darkmode_secondary_color' => '',
+            'darkmode_header_color' => '',
+            'darkmode_sidebar_color' => '',
         ];
 
         $css = $this->subject->generate($theme);
@@ -178,19 +192,19 @@ final class CssGeneratorTest extends TestCase
     {
         return [
             'empty string' => [
-                ['primary_color' => '', 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
+                ['primary_color' => '', 'header_color' => '', 'sidebar_color' => '', 'darkmode_primary_color' => '', 'darkmode_header_color' => '', 'darkmode_sidebar_color' => ''],
             ],
             'no hash prefix' => [
-                ['primary_color' => '3B82F6', 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
+                ['primary_color' => '3B82F6', 'header_color' => '', 'sidebar_color' => '', 'darkmode_primary_color' => '', 'darkmode_header_color' => '', 'darkmode_sidebar_color' => ''],
             ],
             'invalid hex characters' => [
-                ['primary_color' => '#ZZZZZZ', 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
+                ['primary_color' => '#ZZZZZZ', 'header_color' => '', 'sidebar_color' => '', 'darkmode_primary_color' => '', 'darkmode_header_color' => '', 'darkmode_sidebar_color' => ''],
             ],
             'too short 3-char hex' => [
-                ['primary_color' => '#F0F', 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
+                ['primary_color' => '#F0F', 'header_color' => '', 'sidebar_color' => '', 'darkmode_primary_color' => '', 'darkmode_header_color' => '', 'darkmode_sidebar_color' => ''],
             ],
             'rgb format' => [
-                ['primary_color' => 'rgb(59, 130, 246)', 'secondary_color' => '', 'darkmode_primary_color' => '', 'darkmode_secondary_color' => ''],
+                ['primary_color' => 'rgb(59, 130, 246)', 'header_color' => '', 'sidebar_color' => '', 'darkmode_primary_color' => '', 'darkmode_header_color' => '', 'darkmode_sidebar_color' => ''],
             ],
         ];
     }

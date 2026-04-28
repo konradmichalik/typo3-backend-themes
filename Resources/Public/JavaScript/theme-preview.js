@@ -134,24 +134,29 @@ function updatePreview() {
     const primary = readColor('primary_color');
     if (!primary) return;
 
-    const secondary = readColor('secondary_color');
+    const headerColor = readColor('header_color');
+    const sidebarColor = readColor('sidebar_color');
     const dkPrimary = readColor('darkmode_primary_color');
-    const dkSecondary = readColor('darkmode_secondary_color');
+    const dkHeader = readColor('darkmode_header_color');
+    const dkSidebar = readColor('darkmode_sidebar_color');
+    const derived = deriveSidebarColor(primary, true);
 
     // Light mode
     const light = container.querySelector('[data-preview-mode="light"]');
     if (light) {
-        const bg = secondary || deriveSidebarColor(primary, true);
-        const textColor = (!secondary || isDarkColor(secondary)) ? '#fff' : '#1e1e1e';
+        const hBg = headerColor || derived;
+        const sBg = sidebarColor || derived;
+        const hText = (!headerColor || isDarkColor(headerColor)) ? '#fff' : '#1e1e1e';
+        const sText = (!sidebarColor || isDarkColor(sidebarColor)) ? '#fff' : '#1e1e1e';
         light.querySelectorAll('[data-preview-sidebar]').forEach(el => {
-            el.style.backgroundColor = bg;
-            el.style.color = textColor;
+            el.style.backgroundColor = sBg;
+            el.style.color = sText;
             el.style.setProperty('--icon-color-accent', primary);
         });
         light.querySelectorAll('[data-preview-header]').forEach(el => {
-            el.style.backgroundColor = bg;
+            el.style.backgroundColor = hBg;
             const span = el.querySelector('span');
-            if (span) span.style.color = textColor;
+            if (span) span.style.color = hText;
         });
     }
 
@@ -159,18 +164,20 @@ function updatePreview() {
     const dark = container.querySelector('[data-preview-mode="dark"]');
     if (dark) {
         const ep = dkPrimary || primary;
-        const effectiveSecondary = dkSecondary || secondary;
-        const bg = effectiveSecondary || deriveSidebarColor(ep, false);
-        const textColor = (!effectiveSecondary || isDarkColor(effectiveSecondary)) ? '#fff' : '#1e1e1e';
+        const derivedDk = deriveSidebarColor(ep, false);
+        const hBg = dkHeader || headerColor || derivedDk;
+        const sBg = dkSidebar || sidebarColor || derivedDk;
+        const hText = (!dkHeader && !headerColor || isDarkColor(hBg)) ? '#fff' : '#1e1e1e';
+        const sText = (!dkSidebar && !sidebarColor || isDarkColor(sBg)) ? '#fff' : '#1e1e1e';
         dark.querySelectorAll('[data-preview-sidebar]').forEach(el => {
-            el.style.backgroundColor = bg;
-            el.style.color = textColor;
+            el.style.backgroundColor = sBg;
+            el.style.color = sText;
             el.style.setProperty('--icon-color-accent', ep);
         });
         dark.querySelectorAll('[data-preview-header]').forEach(el => {
-            el.style.backgroundColor = bg;
+            el.style.backgroundColor = hBg;
             const span = el.querySelector('span');
-            if (span) span.style.color = textColor;
+            if (span) span.style.color = hText;
         });
     }
 }
