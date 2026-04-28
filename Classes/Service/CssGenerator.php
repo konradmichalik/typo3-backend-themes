@@ -22,7 +22,6 @@ namespace KonradMichalik\Typo3BackendThemes\Service;
 final class CssGenerator
 {
     private const HEX_COLOR_PATTERN = '/^#[A-Fa-f0-9]{6}$/';
-    private const DERIVED_BG = 'light-dark(hsl(from var(--token-color-primary-base) h 40% 20%), hsl(from var(--token-color-primary-base) h 20% 10%))';
 
     /**
      * @param array<string, mixed> $theme
@@ -40,17 +39,14 @@ final class CssGenerator
         $dkHeader = $this->validateColor((string) ($theme['darkmode_header_color'] ?? ''));
         $dkSidebar = $this->validateColor((string) ($theme['darkmode_sidebar_color'] ?? ''));
 
-        $derivedDarkBg = "hsl(from {$primary} h 20% 10%)";
-        $sidebarBg = '' !== $sidebar
-            ? "light-dark({$sidebar}, {$derivedDarkBg})"
-            : self::DERIVED_BG;
-        $headerBg = '' !== $header
-            ? "light-dark({$header}, {$derivedDarkBg})"
-            : $sidebarBg;
+        $sidebarBg = '' !== $sidebar ? $sidebar : "hsl(from {$primary} h 40% 20%)";
+        $headerBg = '' !== $header ? $header : $sidebarBg;
         $sidebarColor = $this->resolveTextColor($sidebar);
         $headerColor = '' !== $header ? $this->resolveTextColor($header) : $sidebarColor;
 
         $dkEffective = '' !== $dkPrimary ? $dkPrimary : $primary;
+        $dkSidebarBg = $dkSidebar ?: "hsl(from {$dkEffective} h 20% 10%)";
+        $dkHeaderBg = $dkHeader ?: $dkSidebarBg;
 
         $css = <<<CSS
 html[data-theme] {
@@ -71,6 +67,11 @@ html[data-theme] .scaffold-sidebar .icon,
 html[data-theme] .scaffold-sidebar typo3-backend-icon {
     --icon-color-accent: hsl(from {$primary} h s 75%);
 }
+html[data-color-scheme="dark"] {
+    --token-color-primary-base: {$dkEffective};
+    --typo3-scaffold-sidebar-bg: {$dkSidebarBg};
+    --typo3-scaffold-header-bg: {$dkHeaderBg};
+}
 html[data-color-scheme="dark"] .icon,
 html[data-color-scheme="dark"] typo3-backend-icon {
     --icon-color-accent: hsl(from {$dkEffective} h s 45%);
@@ -80,17 +81,6 @@ html[data-color-scheme="dark"] .scaffold-sidebar typo3-backend-icon {
     --icon-color-accent: hsl(from {$dkEffective} h s 70%);
 }
 CSS;
-
-        $darkLines = $this->buildDarkModeLines($dkPrimary, $dkHeader, $dkSidebar, $header, $sidebar);
-        if ([] !== $darkLines) {
-            $inner = implode("\n", $darkLines);
-            $css .= <<<CSS
-
-html[data-color-scheme="dark"] {
-{$inner}
-}
-CSS;
-        }
 
         return $css;
     }
@@ -125,40 +115,4 @@ CSS;
         return (0.2126 * $r + 0.7152 * $g + 0.0722 * $b) < 0.5;
     }
 
-    /**
-     * @return list<string>
-     */
-    private function buildDarkModeLines(
-        string $dkPrimary,
-        string $dkHeader,
-        string $dkSidebar,
-        string $lightHeader,
-        string $lightSidebar,
-    ): array {
-        if ('' === $dkPrimary && '' === $dkHeader && '' === $dkSidebar) {
-            return [];
-        }
-
-        $lines = [];
-
-        if ('' !== $dkPrimary) {
-            $lines[] = "    --token-color-primary-base: {$dkPrimary};";
-        }
-
-        $derivedFromDkPrimary = '' !== $dkPrimary ? "hsl(from {$dkPrimary} h 20% 10%)" : '';
-
-        // Sidebar: explicit dk > derive from dkPrimary (always override light value)
-        $effectiveDkSidebar = $dkSidebar ?: $derivedFromDkPrimary;
-        if ('' !== $effectiveDkSidebar) {
-            $lines[] = "    --typo3-scaffold-sidebar-bg: {$effectiveDkSidebar};";
-        }
-
-        // Header: explicit dk > inherit from dk sidebar
-        $effectiveDkHeader = $dkHeader ?: $effectiveDkSidebar;
-        if ('' !== $effectiveDkHeader) {
-            $lines[] = "    --typo3-scaffold-header-bg: {$effectiveDkHeader};";
-        }
-
-        return $lines;
-    }
 }
