@@ -68,7 +68,7 @@ html[data-theme] .scaffold-sidebar typo3-backend-icon {
 }
 CSS;
 
-        $darkLines = $this->buildDarkModeLines($dkPrimary, $dkHeader, $dkSidebar, '' === $header && '' === $sidebar, '' === $sidebar);
+        $darkLines = $this->buildDarkModeLines($dkPrimary, $dkHeader, $dkSidebar, $header, $sidebar);
         if ([] !== $darkLines) {
             $inner = implode("\n", $darkLines);
             $css .= <<<CSS
@@ -119,8 +119,8 @@ CSS;
         string $dkPrimary,
         string $dkHeader,
         string $dkSidebar,
-        bool $headerIsDerived,
-        bool $sidebarIsDerived,
+        string $lightHeader,
+        string $lightSidebar,
     ): array {
         if ('' === $dkPrimary && '' === $dkHeader && '' === $dkSidebar) {
             return [];
@@ -132,16 +132,22 @@ CSS;
             $lines[] = "    --token-color-primary-base: {$dkPrimary};";
         }
 
-        if ('' !== $dkHeader) {
-            $lines[] = "    --typo3-scaffold-header-bg: {$dkHeader};";
-        } elseif ('' !== $dkPrimary && $headerIsDerived) {
-            $lines[] = '    --typo3-scaffold-header-bg: hsl(from var(--token-color-primary-base) h 20% 10%);';
+        // Sidebar: explicit dk override > derive from dkPrimary if light sidebar was also derived
+        $effectiveDkSidebar = $dkSidebar;
+        if ('' === $effectiveDkSidebar && '' !== $dkPrimary && '' === $lightSidebar) {
+            $effectiveDkSidebar = "hsl(from {$dkPrimary} h 20% 10%)";
+        }
+        if ('' !== $effectiveDkSidebar) {
+            $lines[] = "    --typo3-scaffold-sidebar-bg: {$effectiveDkSidebar};";
         }
 
-        if ('' !== $dkSidebar) {
-            $lines[] = "    --typo3-scaffold-sidebar-bg: {$dkSidebar};";
-        } elseif ('' !== $dkPrimary && $sidebarIsDerived) {
-            $lines[] = '    --typo3-scaffold-sidebar-bg: hsl(from var(--token-color-primary-base) h 20% 10%);';
+        // Header: explicit dk override > inherit from dk sidebar > derive from dkPrimary
+        $effectiveDkHeader = $dkHeader;
+        if ('' === $effectiveDkHeader && '' === $lightHeader) {
+            $effectiveDkHeader = $effectiveDkSidebar;
+        }
+        if ('' !== $effectiveDkHeader) {
+            $lines[] = "    --typo3-scaffold-header-bg: {$effectiveDkHeader};";
         }
 
         return $lines;
