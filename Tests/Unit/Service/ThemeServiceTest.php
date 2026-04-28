@@ -21,14 +21,12 @@ use PHPUnit\Framework\TestCase;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 
-
 /**
  * ThemeServiceTest.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final class ThemeServiceTest extends TestCase
 {
     #[Test]

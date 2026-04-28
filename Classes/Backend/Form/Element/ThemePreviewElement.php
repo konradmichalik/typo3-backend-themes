@@ -16,14 +16,12 @@ namespace KonradMichalik\Typo3BackendThemes\Backend\Form\Element;
 use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 
-
 /**
  * ThemePreviewElement.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final class ThemePreviewElement extends AbstractNode
 {
     /** @return array<string, mixed> */
