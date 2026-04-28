@@ -37,9 +37,16 @@ final class CssGenerator
         $dkPrimary = $this->validateColor((string) ($theme['darkmode_primary_color'] ?? ''));
         $dkSecondary = $this->validateColor((string) ($theme['darkmode_secondary_color'] ?? ''));
 
-        $scaffoldBg = '' !== $secondary
+        $hasExplicitSecondary = '' !== $secondary;
+        $scaffoldBg = $hasExplicitSecondary
             ? $secondary
             : 'light-dark(hsl(from var(--token-color-primary-base) h 40% 20%), hsl(from var(--token-color-primary-base) h 20% 10%))';
+
+        // When secondary is explicit, determine if it's light or dark to choose
+        // the right text color. Auto-derived backgrounds are always dark.
+        $scaffoldColor = (!$hasExplicitSecondary || $this->isDarkColor($secondary))
+            ? 'var(--typo3-surface-primary-text)'
+            : 'var(--typo3-text-color-base)';
 
         $css = <<<CSS
 html[data-theme] {
@@ -47,10 +54,10 @@ html[data-theme] {
     --token-color-secondary-base: color-mix(in srgb, #737373, var(--token-color-primary-base) var(--typo3-color-state-harmonize));
     --typo3-icons-accent: light-dark(hsl(from {$primary} h s 55%), hsl(from {$primary} h s 45%));
     --icon-color-accent: var(--typo3-icons-accent);
-    --typo3-scaffold-header-color: var(--typo3-surface-primary-text);
+    --typo3-scaffold-header-color: {$scaffoldColor};
     --typo3-scaffold-header-bg: {$scaffoldBg};
     --typo3-scaffold-header-box-shadow: none;
-    --typo3-scaffold-sidebar-color: var(--typo3-surface-primary-text);
+    --typo3-scaffold-sidebar-color: {$scaffoldColor};
     --typo3-scaffold-sidebar-bg: {$scaffoldBg};
     --typo3-scaffold-sidebar-border-width: 0;
 }
@@ -98,5 +105,20 @@ CSS;
     private function validateColor(string $color): string
     {
         return '' !== $color && $this->isValidHexColor($color) ? $color : '';
+    }
+
+    /**
+     * Determine if a hex color is dark (relative luminance < 0.5).
+     */
+    private function isDarkColor(string $hex): bool
+    {
+        $r = hexdec(substr($hex, 1, 2)) / 255;
+        $g = hexdec(substr($hex, 3, 2)) / 255;
+        $b = hexdec(substr($hex, 5, 2)) / 255;
+
+        // Relative luminance (simplified sRGB)
+        $luminance = 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
+
+        return $luminance < 0.5;
     }
 }
