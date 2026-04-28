@@ -63,12 +63,8 @@ final class CssGeneratorTest extends TestCase
 
         $css = $this->subject->generate($theme);
 
-        self::assertStringContainsString(
-            'light-dark(hsl(from var(--token-color-primary-base) h 40% 20%), hsl(from var(--token-color-primary-base) h 20% 10%))',
-            $css,
-        );
-        self::assertStringContainsString('--typo3-scaffold-header-bg:', $css);
-        self::assertStringContainsString('--typo3-scaffold-sidebar-bg:', $css);
+        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: hsl(from #3B82F6 h 40% 20%);', $css);
+        self::assertStringContainsString('--typo3-scaffold-header-bg: hsl(from #3B82F6 h 40% 20%);', $css);
     }
 
     #[Test]
@@ -85,11 +81,8 @@ final class CssGeneratorTest extends TestCase
 
         $css = $this->subject->generate($theme);
 
-        self::assertStringContainsString('light-dark(#1E3A5F,', $css);
-        self::assertStringNotContainsString(
-            'light-dark(hsl(from var(--token-color-primary-base) h 40% 20%)',
-            $css,
-        );
+        self::assertStringContainsString('--typo3-scaffold-header-bg: #1E3A5F;', $css);
+        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: #1E3A5F;', $css);
     }
 
     #[Test]
@@ -111,7 +104,7 @@ final class CssGeneratorTest extends TestCase
     }
 
     #[Test]
-    public function generateWithoutDarkmodeOverrideHasNoScaffoldDarkBlock(): void
+    public function generateAlwaysIncludesDarkModeBlock(): void
     {
         $theme = [
             'primary_color' => '#3B82F6',
@@ -124,7 +117,8 @@ final class CssGeneratorTest extends TestCase
 
         $css = $this->subject->generate($theme);
 
-        self::assertStringNotContainsString('--typo3-scaffold-header-bg: hsl(from', $css);
+        self::assertStringContainsString('[data-color-scheme="dark"]', $css);
+        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: hsl(from #3B82F6 h 20% 10%);', $css);
     }
 
     #[Test]
