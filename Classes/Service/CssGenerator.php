@@ -40,10 +40,10 @@ final class CssGenerator
         $dkHeader = $this->validateColor((string) ($theme['darkmode_header_color'] ?? ''));
         $dkSidebar = $this->validateColor((string) ($theme['darkmode_sidebar_color'] ?? ''));
 
-        $headerBg = '' !== $header ? $header : self::DERIVED_BG;
         $sidebarBg = '' !== $sidebar ? $sidebar : self::DERIVED_BG;
-        $headerColor = $this->resolveTextColor($header);
+        $headerBg = '' !== $header ? $header : $sidebarBg;
         $sidebarColor = $this->resolveTextColor($sidebar);
+        $headerColor = '' !== $header ? $this->resolveTextColor($header) : $sidebarColor;
 
         $css = <<<CSS
 html[data-theme] {
@@ -68,7 +68,7 @@ html[data-theme] .scaffold-sidebar typo3-backend-icon {
 }
 CSS;
 
-        $darkLines = $this->buildDarkModeLines($dkPrimary, $dkHeader, $dkSidebar, '' === $header, '' === $sidebar);
+        $darkLines = $this->buildDarkModeLines($dkPrimary, $dkHeader, $dkSidebar, '' === $header && '' === $sidebar, '' === $sidebar);
         if ([] !== $darkLines) {
             $inner = implode("\n", $darkLines);
             $css .= <<<CSS

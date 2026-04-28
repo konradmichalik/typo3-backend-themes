@@ -87,15 +87,15 @@ function buildPanel(mode) {
 
     return `<div data-preview-mode="${mode}" style="flex:1;">
         <div style="margin-bottom:6px;font-weight:600;font-size:12px;">${L ? 'Light' : 'Dark'}</div>
-        <div style="display:flex;border:1px solid ${L ? '#ccc' : '#444'};border-radius:6px;overflow:hidden;height:140px;">
-            <div data-preview-sidebar style="width:48px;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:2px;background:${L ? '#ccc' : '#222'};color:${L ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.7)'};">
-                ${iconHtml}
+        <div style="border:1px solid ${L ? '#ccc' : '#444'};border-radius:6px;overflow:hidden;height:140px;display:flex;flex-direction:column;">
+            <div data-preview-header style="height:32px;min-height:32px;background:${L ? '#ddd' : '#2d2d2d'};display:flex;align-items:center;padding:0 10px;">
+                <span style="color:#fff;font-size:11px;font-weight:600;">Header</span>
             </div>
-            <div style="flex:1;display:flex;flex-direction:column;background:${L ? '#f5f5f5' : '#1e1e1e'};">
-                <div data-preview-header style="height:32px;background:${L ? '#ddd' : '#2d2d2d'};display:flex;align-items:center;padding:0 10px;">
-                    <span style="color:#fff;font-size:11px;font-weight:600;">Header</span>
+            <div style="flex:1;display:flex;overflow:hidden;">
+                <div data-preview-sidebar style="width:48px;min-width:48px;display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:2px;background:${L ? '#ccc' : '#222'};color:${L ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.7)'};">
+                    ${iconHtml}
                 </div>
-                <div style="flex:1;padding:8px;">
+                <div style="flex:1;padding:8px;background:${L ? '#f5f5f5' : '#1e1e1e'};">
                     <div style="height:100%;background:${L ? '#fff' : '#2a2a2a'};border:1px solid ${L ? '#e0e0e0' : '#444'};border-radius:3px;"></div>
                 </div>
             </div>
@@ -141,13 +141,13 @@ function updatePreview() {
     const dkSidebar = readColor('darkmode_sidebar_color');
     const derived = deriveSidebarColor(primary, true);
 
-    // Light mode
+    // Light: sidebar_color is base, header_color inherits from it
     const light = container.querySelector('[data-preview-mode="light"]');
     if (light) {
-        const hBg = headerColor || derived;
         const sBg = sidebarColor || derived;
-        const hText = (!headerColor || isDarkColor(headerColor)) ? '#fff' : '#1e1e1e';
-        const sText = (!sidebarColor || isDarkColor(sidebarColor)) ? '#fff' : '#1e1e1e';
+        const hBg = headerColor || sBg;
+        const sText = isDarkColor(sBg) ? '#fff' : '#1e1e1e';
+        const hText = isDarkColor(hBg) ? '#fff' : '#1e1e1e';
         light.querySelectorAll('[data-preview-sidebar]').forEach(el => {
             el.style.backgroundColor = sBg;
             el.style.color = sText;
@@ -160,15 +160,15 @@ function updatePreview() {
         });
     }
 
-    // Dark mode
+    // Dark: same inheritance chain
     const dark = container.querySelector('[data-preview-mode="dark"]');
     if (dark) {
         const ep = dkPrimary || primary;
         const derivedDk = deriveSidebarColor(ep, false);
-        const hBg = dkHeader || headerColor || derivedDk;
         const sBg = dkSidebar || sidebarColor || derivedDk;
-        const hText = (!dkHeader && !headerColor || isDarkColor(hBg)) ? '#fff' : '#1e1e1e';
-        const sText = (!dkSidebar && !sidebarColor || isDarkColor(sBg)) ? '#fff' : '#1e1e1e';
+        const hBg = dkHeader || headerColor || sBg;
+        const sText = isDarkColor(sBg) ? '#fff' : '#1e1e1e';
+        const hText = isDarkColor(hBg) ? '#fff' : '#1e1e1e';
         dark.querySelectorAll('[data-preview-sidebar]').forEach(el => {
             el.style.backgroundColor = sBg;
             el.style.color = sText;

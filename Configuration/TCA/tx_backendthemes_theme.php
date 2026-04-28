@@ -49,11 +49,11 @@ return [
         ],
         'overrides' => [
             'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.overrides',
-            'showitem' => 'header_color, sidebar_color',
+            'showitem' => 'sidebar_color, header_color',
         ],
         'darkmode_overrides' => [
             'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.darkmode_overrides',
-            'showitem' => 'darkmode_primary_color, --linebreak--, darkmode_header_color, darkmode_sidebar_color',
+            'showitem' => 'darkmode_primary_color, --linebreak--, darkmode_sidebar_color, darkmode_header_color',
         ],
     ],
     'columns' => [
@@ -83,6 +83,7 @@ return [
         ],
         'primary_color' => [
             'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.primary_color',
+            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.primary_color.description',
             'config' => [
                 'type' => 'color',
                 'required' => true,

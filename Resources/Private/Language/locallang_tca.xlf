@@ -12,17 +12,20 @@
             <trans-unit id="tx_backendthemes_theme.primary_color">
                 <source>Primary Color</source>
             </trans-unit>
+            <trans-unit id="tx_backendthemes_theme.primary_color.description">
+                <source>Controls icons, buttons and accents. When no overrides are set, the header and sidebar backgrounds are automatically derived from this color.</source>
+            </trans-unit>
             <trans-unit id="tx_backendthemes_theme.header_color">
                 <source>Header Color</source>
             </trans-unit>
             <trans-unit id="tx_backendthemes_theme.header_color.description">
-                <source>Optional override for the header background color. If left empty, the color is automatically derived from the primary color.</source>
+                <source>Optional override for the header background. If left empty, the sidebar color is used. If both are empty, the color is derived from the primary color.</source>
             </trans-unit>
             <trans-unit id="tx_backendthemes_theme.sidebar_color">
                 <source>Sidebar Color</source>
             </trans-unit>
             <trans-unit id="tx_backendthemes_theme.sidebar_color.description">
-                <source>Optional override for the sidebar background color. If left empty, the color is automatically derived from the primary color.</source>
+                <source>Optional override for the sidebar and header background. If left empty, the color is automatically derived from the primary color.</source>
             </trans-unit>
             <trans-unit id="tx_backendthemes_theme.darkmode_primary_color">
                 <source>Primary Color (Dark Mode)</source>
@@ -34,13 +37,13 @@
                 <source>Header Color (Dark Mode)</source>
             </trans-unit>
             <trans-unit id="tx_backendthemes_theme.darkmode_header_color.description">
-                <source>Optional override for the header background in dark mode. If left empty, derived from the dark mode primary color.</source>
+                <source>Optional override for the header background in dark mode. If left empty, uses the dark mode sidebar color or derives from primary.</source>
             </trans-unit>
             <trans-unit id="tx_backendthemes_theme.darkmode_sidebar_color">
                 <source>Sidebar Color (Dark Mode)</source>
             </trans-unit>
             <trans-unit id="tx_backendthemes_theme.darkmode_sidebar_color.description">
-                <source>Optional override for the sidebar background in dark mode. If left empty, derived from the dark mode primary color.</source>
+                <source>Optional override for the sidebar and header background in dark mode. If left empty, derived from the dark mode primary color.</source>
             </trans-unit>
             <trans-unit id="tx_backendthemes_theme.is_default">
                 <source>Default Theme</source>
