@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" datatype="plaintext" original="locallang" date="2026-04-27T00:00:00Z" product-name="backend_themes">
+    <file source-language="en" datatype="plaintext" original="locallang" date="2026-04-27T00:00:00Z" product-name="typo3_backend_themes">
         <header/>
         <body>
             <trans-unit id="userSettings.backendTheme" resname="userSettings.backendTheme">

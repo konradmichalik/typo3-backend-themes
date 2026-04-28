@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the "backend_themes" TYPO3 CMS extension.
+ * This file is part of the "typo3_backend_themes" TYPO3 CMS extension.
  *
  * (c) 2026 Konrad Michalik <hej@konradmichalik.dev>
  *
@@ -39,7 +39,7 @@ final readonly class ThemeCssInjectionMiddleware implements MiddlewareInterface
         if (null !== $theme) {
             $css = $this->cssGenerator->generate($theme);
             if ('' !== $css) {
-                $this->pageRenderer->addCssInlineBlock('backend_themes', $css);
+                $this->pageRenderer->addCssInlineBlock('typo3_backend_themes', $css);
             }
         }
 

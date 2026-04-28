@@ -2,12 +2,12 @@
 
 ![Extension icon](Resources/Public/Icons/Extension.png)
 
-# TYPO3 extension `backend_themes`
+# TYPO3 extension `typo3_backend_themes`
 
-[![Latest Stable Version](https://typo3-badges.dev/badge/backend_themes/version/shields.svg)](https://extensions.typo3.org/extension/backend_themes)
-[![Supported TYPO3 versions](https://typo3-badges.dev/badge/backend_themes/typo3/shields.svg)](https://extensions.typo3.org/extension/backend_themes)
+[![Latest Stable Version](https://typo3-badges.dev/badge/typo3_backend_themes/version/shields.svg)](https://extensions.typo3.org/extension/typo3_backend_themes)
+[![Supported TYPO3 versions](https://typo3-badges.dev/badge/typo3_backend_themes/typo3/shields.svg)](https://extensions.typo3.org/extension/typo3_backend_themes)
 [![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/konradmichalik/typo3-backend-themes/php?logo=php)](https://packagist.org/packages/konradmichalik/typo3-backend-themes)
-![Stability](https://typo3-badges.dev/badge/backend_themes/stability/shields.svg)
+![Stability](https://typo3-badges.dev/badge/typo3_backend_themes/stability/shields.svg)
 [![CGL](https://img.shields.io/github/actions/workflow/status/konradmichalik/typo3-backend-themes/cgl.yml?label=cgl&logo=github)](https://github.com/konradmichalik/typo3-backend-themes/actions/workflows/cgl.yml)
 [![Tests](https://img.shields.io/github/actions/workflow/status/konradmichalik/typo3-backend-themes/tests.yml?label=tests&logo=github)](https://github.com/konradmichalik/typo3-backend-themes/actions/workflows/tests.yml)
 [![License](https://poser.pugx.org/konradmichalik/typo3-backend-themes/license)](LICENSE)
@@ -50,10 +50,10 @@ composer require konradmichalik/typo3-backend-themes
 
 ### TER
 
-[![TER version](https://typo3-badges.dev/badge/backend_themes/version/shields.svg)](https://extensions.typo3.org/extension/backend_themes)
-[![TER downloads](https://typo3-badges.dev/badge/backend_themes/downloads/shields.svg)](https://extensions.typo3.org/extension/backend_themes)
+[![TER version](https://typo3-badges.dev/badge/typo3_backend_themes/version/shields.svg)](https://extensions.typo3.org/extension/typo3_backend_themes)
+[![TER downloads](https://typo3-badges.dev/badge/typo3_backend_themes/downloads/shields.svg)](https://extensions.typo3.org/extension/typo3_backend_themes)
 
-Download the zip file from [TYPO3 extension repository (TER)](https://extensions.typo3.org/extension/backend_themes).
+Download the zip file from [TYPO3 extension repository (TER)](https://extensions.typo3.org/extension/typo3_backend_themes).
 
 ### Demo Themes
 
@@ -86,7 +86,7 @@ vendor/bin/typo3 extension:setup
 
 ### Extension Settings
 
-Under **Admin Tools → Settings → Extension Configuration → backend_themes**:
+Under **Admin Tools → Settings → Extension Configuration → typo3_backend_themes**:
 
 | Setting | Description |
 |---------|-------------|

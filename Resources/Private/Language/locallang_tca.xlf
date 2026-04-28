@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" datatype="plaintext" original="messages" date="2026-01-01T00:00:00Z" product-name="backend_themes">
+    <file source-language="en" datatype="plaintext" original="messages" date="2026-01-01T00:00:00Z" product-name="typo3_backend_themes">
         <header/>
         <body>
-            <trans-unit id="tx_backendthemes_theme">
+            <trans-unit id="tx_typo3backendthemes_theme">
                 <source>Backend Theme</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.title">
+            <trans-unit id="tx_typo3backendthemes_theme.title">
                 <source>Title</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.primary_color">
+            <trans-unit id="tx_typo3backendthemes_theme.primary_color">
                 <source>Primary Color</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.primary_color.description">
+            <trans-unit id="tx_typo3backendthemes_theme.primary_color.description">
                 <source>Controls icons, buttons and accents. When no overrides are set, the header and sidebar backgrounds are automatically derived from this color.</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.header_color">
+            <trans-unit id="tx_typo3backendthemes_theme.header_color">
                 <source>Header Color</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.header_color.description">
+            <trans-unit id="tx_typo3backendthemes_theme.header_color.description">
                 <source>Optional override for the header background. If left empty, the sidebar color is used. If both are empty, the color is derived from the primary color.</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.sidebar_color">
+            <trans-unit id="tx_typo3backendthemes_theme.sidebar_color">
                 <source>Sidebar Color</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.sidebar_color.description">
+            <trans-unit id="tx_typo3backendthemes_theme.sidebar_color.description">
                 <source>Optional override for the sidebar and header background. If left empty, the color is automatically derived from the primary color.</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.darkmode_primary_color">
+            <trans-unit id="tx_typo3backendthemes_theme.darkmode_primary_color">
                 <source>Primary Color (Dark Mode)</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.darkmode_primary_color.description">
+            <trans-unit id="tx_typo3backendthemes_theme.darkmode_primary_color.description">
                 <source>Optional override for icons and accents in dark mode. If left empty, the primary color is used with automatic dark mode adjustments.</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.darkmode_header_color">
+            <trans-unit id="tx_typo3backendthemes_theme.darkmode_header_color">
                 <source>Header Color (Dark Mode)</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.darkmode_header_color.description">
+            <trans-unit id="tx_typo3backendthemes_theme.darkmode_header_color.description">
                 <source>Optional override for the header background in dark mode. If left empty, uses the dark mode sidebar color or derives from primary.</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.darkmode_sidebar_color">
+            <trans-unit id="tx_typo3backendthemes_theme.darkmode_sidebar_color">
                 <source>Sidebar Color (Dark Mode)</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.darkmode_sidebar_color.description">
+            <trans-unit id="tx_typo3backendthemes_theme.darkmode_sidebar_color.description">
                 <source>Optional override for the sidebar and header background in dark mode. If left empty, derived from the dark mode primary color.</source>
             </trans-unit>
-            <trans-unit id="tx_backendthemes_theme.is_default">
+            <trans-unit id="tx_typo3backendthemes_theme.is_default">
                 <source>Default Theme</source>
             </trans-unit>
             <trans-unit id="palette.overrides">

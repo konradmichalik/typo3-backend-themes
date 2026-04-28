@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the "backend_themes" TYPO3 CMS extension.
+ * This file is part of the "typo3_backend_themes" TYPO3 CMS extension.
  *
  * (c) 2026 Konrad Michalik <hej@konradmichalik.dev>
  *
@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme',
+        'title' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme',
         'label' => 'title',
         'rootLevel' => 1,
         'security' => [
@@ -48,11 +48,11 @@ return [
             'showitem' => 'title, is_default',
         ],
         'overrides' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.overrides',
+            'label' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.overrides',
             'showitem' => 'sidebar_color, header_color',
         ],
         'darkmode_overrides' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.darkmode_overrides',
+            'label' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:palette.darkmode_overrides',
             'showitem' => 'darkmode_primary_color, --linebreak--, darkmode_sidebar_color, darkmode_header_color',
         ],
     ],
@@ -72,7 +72,7 @@ return [
             ],
         ],
         'title' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.title',
+            'label' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.title',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -82,50 +82,50 @@ return [
             ],
         ],
         'primary_color' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.primary_color',
-            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.primary_color.description',
+            'label' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.primary_color',
+            'description' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.primary_color.description',
             'config' => [
                 'type' => 'color',
                 'required' => true,
             ],
         ],
         'header_color' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.header_color',
-            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.header_color.description',
+            'label' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.header_color',
+            'description' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.header_color.description',
             'config' => [
                 'type' => 'color',
             ],
         ],
         'sidebar_color' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.sidebar_color',
-            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.sidebar_color.description',
+            'label' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.sidebar_color',
+            'description' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.sidebar_color.description',
             'config' => [
                 'type' => 'color',
             ],
         ],
         'darkmode_primary_color' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_primary_color',
-            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_primary_color.description',
+            'label' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.darkmode_primary_color',
+            'description' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.darkmode_primary_color.description',
             'config' => [
                 'type' => 'color',
             ],
         ],
         'darkmode_header_color' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_header_color',
-            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_header_color.description',
+            'label' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.darkmode_header_color',
+            'description' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.darkmode_header_color.description',
             'config' => [
                 'type' => 'color',
             ],
         ],
         'darkmode_sidebar_color' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_sidebar_color',
-            'description' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.darkmode_sidebar_color.description',
+            'label' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.darkmode_sidebar_color',
+            'description' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.darkmode_sidebar_color.description',
             'config' => [
                 'type' => 'color',
             ],
         ],
         'is_default' => [
-            'label' => 'LLL:EXT:backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_backendthemes_theme.is_default',
+            'label' => 'LLL:EXT:typo3_backend_themes/Resources/Private/Language/locallang_tca.xlf:tx_typo3backendthemes_theme.is_default',
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',

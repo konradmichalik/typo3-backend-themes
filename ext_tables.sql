@@ -1,4 +1,4 @@
-CREATE TABLE tx_backendthemes_theme (
+CREATE TABLE tx_typo3backendthemes_theme (
     title varchar(255) NOT NULL DEFAULT '',
     primary_color varchar(7) NOT NULL DEFAULT '',
     header_color varchar(7) NOT NULL DEFAULT '',

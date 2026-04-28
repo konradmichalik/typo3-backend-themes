@@ -1,7 +1,7 @@
 services:
     web:
         environment:
-            - EXTENSION_KEY=backend_themes
+            - EXTENSION_KEY=typo3_backend_themes
             - EXTENSION_NAME=typo3-backend-themes
             - PACKAGE_NAME=konradmichalik/typo3-backend-themes
             - TYPO3_VERSIONS=14

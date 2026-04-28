@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the "backend_themes" TYPO3 CMS extension.
+ * This file is part of the "typo3_backend_themes" TYPO3 CMS extension.
  *
  * (c) 2026 Konrad Michalik <hej@konradmichalik.dev>
  *
@@ -17,6 +17,6 @@ return [
         'core',
     ],
     'imports' => [
-        '@konradmichalik/backend-themes/' => 'EXT:backend_themes/Resources/Public/JavaScript/',
+        '@konradmichalik/backend-themes/' => 'EXT:typo3_backend_themes/Resources/Public/JavaScript/',
     ],
 ];

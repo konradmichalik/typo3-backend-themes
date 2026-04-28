@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the "backend_themes" TYPO3 CMS extension.
+ * This file is part of the "typo3_backend_themes" TYPO3 CMS extension.
  *
  * (c) 2026 Konrad Michalik <hej@konradmichalik.dev>
  *
@@ -23,7 +23,7 @@ use TYPO3\CMS\Core\Database\{Connection, ConnectionPool};
  */
 final readonly class ThemeService
 {
-    private const TABLE_NAME = 'tx_backendthemes_theme';
+    private const TABLE_NAME = 'tx_typo3backendthemes_theme';
 
     public function __construct(private ConnectionPool $connectionPool) {}
 

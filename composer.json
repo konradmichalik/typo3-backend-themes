@@ -56,7 +56,7 @@
 			"Package": {
 				"providesPackages": {}
 			},
-			"extension-key": "backend_themes",
+			"extension-key": "typo3_backend_themes",
 			"web-dir": "public"
 		}
 	},

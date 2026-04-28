@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the "backend_themes" TYPO3 CMS extension.
+ * This file is part of the "typo3_backend_themes" TYPO3 CMS extension.
  *
  * (c) 2026 Konrad Michalik <hej@konradmichalik.dev>
  *
@@ -58,7 +58,7 @@ final class DataHandlerHookTest extends TestCase
         $this->connectionPool
             ->expects(self::once())
             ->method('getQueryBuilderForTable')
-            ->with('tx_backendthemes_theme')
+            ->with('tx_typo3backendthemes_theme')
             ->willReturn($queryBuilder);
 
         $dataHandler = $this->createMock(DataHandler::class);
@@ -66,7 +66,7 @@ final class DataHandlerHookTest extends TestCase
 
         $this->subject->processDatamap_afterDatabaseOperations(
             'update',
-            'tx_backendthemes_theme',
+            'tx_typo3backendthemes_theme',
             5,
             $fieldArray,
             $dataHandler,
@@ -85,7 +85,7 @@ final class DataHandlerHookTest extends TestCase
 
         $this->subject->processDatamap_afterDatabaseOperations(
             'update',
-            'tx_backendthemes_theme',
+            'tx_typo3backendthemes_theme',
             5,
             $fieldArray,
             $dataHandler,

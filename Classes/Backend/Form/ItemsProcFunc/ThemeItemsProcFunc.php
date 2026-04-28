@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the "backend_themes" TYPO3 CMS extension.
+ * This file is part of the "typo3_backend_themes" TYPO3 CMS extension.
  *
  * (c) 2026 Konrad Michalik <hej@konradmichalik.dev>
  *
@@ -34,7 +34,7 @@ final readonly class ThemeItemsProcFunc
      */
     public function addCustomThemes(array &$params): void
     {
-        $hideDefaults = (bool) ($this->extensionConfiguration->get('backend_themes', 'hideDefaultThemes') ?? false);
+        $hideDefaults = (bool) ($this->extensionConfiguration->get('typo3_backend_themes', 'hideDefaultThemes') ?? false);
 
         if ($hideDefaults) {
             $params['items'] = [];
