@@ -75,7 +75,7 @@ final readonly class ThemeService
 
     /**
      * Resolve active theme for the current backend user.
-     * Returns null if the user has a standard theme selected.
+     * Falls back to the default theme if no custom theme is selected.
      *
      * @return array<string, mixed>|null
      */
@@ -89,7 +89,7 @@ final readonly class ThemeService
         $themeValue = (string) ($backendUser->uc['theme'] ?? '');
 
         if (!str_starts_with($themeValue, 'custom_')) {
-            return null;
+            return $this->getDefaultTheme();
         }
 
         $uid = (int) substr($themeValue, 7);
