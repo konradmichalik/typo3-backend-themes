@@ -13,14 +13,12 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3BackendThemes\Service;
 
-
 /**
  * CssGenerator.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final class CssGenerator
 {
     private const HEX_COLOR_PATTERN = '/^#[A-Fa-f0-9]{6}$/';

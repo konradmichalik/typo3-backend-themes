@@ -17,14 +17,12 @@ use KonradMichalik\Typo3BackendThemes\Service\CssGenerator;
 use PHPUnit\Framework\Attributes\{DataProvider, Test};
 use PHPUnit\Framework\TestCase;
 
-
 /**
  * CssGeneratorTest.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final class CssGeneratorTest extends TestCase
 {
     private CssGenerator $subject;

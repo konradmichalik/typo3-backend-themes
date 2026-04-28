@@ -15,14 +15,12 @@ namespace KonradMichalik\Typo3BackendThemes\Service;
 
 use TYPO3\CMS\Core\Database\{Connection, ConnectionPool};
 
-
 /**
  * ThemeService.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final readonly class ThemeService
 {
     private const TABLE_NAME = 'tx_backendthemes_theme';

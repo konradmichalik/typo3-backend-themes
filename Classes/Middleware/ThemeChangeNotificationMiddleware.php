@@ -13,15 +13,13 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3BackendThemes\Middleware;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
-use TYPO3\CMS\Core\Messaging\FlashMessage;
-use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
+use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
+use TYPO3\CMS\Core\Messaging\{FlashMessage, FlashMessageService};
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use function is_array;
 
 /**
  * ThemeChangeNotificationMiddleware.
@@ -29,9 +27,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
-final class ThemeChangeNotificationMiddleware implements MiddlewareInterface
+final readonly class ThemeChangeNotificationMiddleware implements MiddlewareInterface
 {
+    public function __construct(private FlashMessageService $flashMessageService) {}
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ('POST' === $request->getMethod()) {
@@ -79,7 +78,7 @@ final class ThemeChangeNotificationMiddleware implements MiddlewareInterface
             true,
         );
 
-        GeneralUtility::makeInstance(FlashMessageService::class)
+        $this->flashMessageService
             ->getMessageQueueByIdentifier()
             ->enqueue($flashMessage);
     }

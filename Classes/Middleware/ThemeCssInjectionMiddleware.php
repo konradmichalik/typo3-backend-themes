@@ -13,25 +13,17 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3BackendThemes\Middleware;
 
-use KonradMichalik\Typo3BackendThemes\Service\CssGenerator;
-use KonradMichalik\Typo3BackendThemes\Service\ThemeService;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use KonradMichalik\Typo3BackendThemes\Service\{CssGenerator, ThemeService};
+use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
+use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 use TYPO3\CMS\Core\Page\PageRenderer;
-
 
 /**
  * ThemeCssInjectionMiddleware.
  *
- * Injects custom theme CSS into every backend response, including
- * the list_frame iframe that renders module content.
- *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final readonly class ThemeCssInjectionMiddleware implements MiddlewareInterface
 {
     public function __construct(

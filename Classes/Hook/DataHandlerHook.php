@@ -16,11 +16,9 @@ namespace KonradMichalik\Typo3BackendThemes\Hook;
 use TYPO3\CMS\Core\Database\{Connection, ConnectionPool};
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Messaging\FlashMessage;
-use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Messaging\{FlashMessage, FlashMessageService};
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 /**
  * DataHandlerHook.
@@ -28,12 +26,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final readonly class DataHandlerHook
 {
     private const TABLE_NAME = 'tx_backendthemes_theme';
 
-    public function __construct(private ConnectionPool $connectionPool) {}
+    public function __construct(private ConnectionPool $connectionPool, private readonly FlashMessageService $flashMessageService) {}
 
     /** @param array<string, mixed> $fieldArray */
     public function processDatamap_afterDatabaseOperations(
@@ -91,7 +88,7 @@ final readonly class DataHandlerHook
             true,
         );
 
-        GeneralUtility::makeInstance(FlashMessageService::class)
+        $this->flashMessageService
             ->getMessageQueueByIdentifier()
             ->enqueue($flashMessage);
     }

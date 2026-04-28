@@ -6,6 +6,11 @@
 			"role": "Maintainer"
 		}
 	],
+	"require": {
+		"psr/http-message": "^1.0 || ^2.0",
+		"psr/http-server-handler": "^1.0",
+		"psr/http-server-middleware": "^1.0"
+	},
 	"require-dev": {
 		"armin/editorconfig-cli": "^2.2.1",
 		"ergebnis/composer-normalize": "^2.51.0",
@@ -17,11 +22,6 @@
 		"shipmonk/composer-dependency-analyser": "1.8.4",
 		"ssch/typo3-rector": "^2.10 || ^3.0",
 		"typo3/coding-standards": "^0.7 || ^0.8"
-	},
-	"require": {
-		"psr/http-message": "^1.0 || ^2.0",
-		"psr/http-server-handler": "^1.0",
-		"psr/http-server-middleware": "^1.0"
 	},
 	"replace": {
 		"typo3/cms-core": "*",

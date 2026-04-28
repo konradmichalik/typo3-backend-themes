@@ -16,14 +16,12 @@ namespace KonradMichalik\Typo3BackendThemes\Backend\Form\ItemsProcFunc;
 use KonradMichalik\Typo3BackendThemes\Service\ThemeService;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
-
 /**
  * ThemeItemsProcFunc.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final readonly class ThemeItemsProcFunc
 {
     public function __construct(
