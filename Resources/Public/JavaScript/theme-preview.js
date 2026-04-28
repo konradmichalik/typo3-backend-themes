@@ -32,10 +32,17 @@ function deriveIconAccent(hex, light) {
     return light ? `hsl(${h}, ${s}%, 75%)` : `hsl(${h}, ${s}%, 70%)`;
 }
 
-function isDarkColor(hex) {
-    const r = parseInt(hex.slice(1, 3), 16) / 255;
-    const g = parseInt(hex.slice(3, 5), 16) / 255;
-    const b = parseInt(hex.slice(5, 7), 16) / 255;
+function isDarkColor(color) {
+    if (!color) return true;
+    // HSL string from deriveSidebarColor - check lightness directly
+    if (color.startsWith('hsl')) {
+        const match = color.match(/(\d+)%\s*\)$/);
+        return match ? parseInt(match[1], 10) < 50 : true;
+    }
+    // Hex color
+    const r = parseInt(color.slice(1, 3), 16) / 255;
+    const g = parseInt(color.slice(3, 5), 16) / 255;
+    const b = parseInt(color.slice(5, 7), 16) / 255;
     return (0.2126 * r + 0.7152 * g + 0.0722 * b) < 0.5;
 }
 
