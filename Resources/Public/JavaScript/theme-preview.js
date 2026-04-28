@@ -32,6 +32,13 @@ function deriveIconAccent(hex, light) {
     return light ? `hsl(${h}, ${s}%, 75%)` : `hsl(${h}, ${s}%, 70%)`;
 }
 
+function isDarkColor(hex) {
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+    return (0.2126 * r + 0.7152 * g + 0.0722 * b) < 0.5;
+}
+
 /**
  * Read a color field value. TYPO3 FormEngine stores the real value in
  * a hidden input whose name ends with [fieldname]. The visible input
@@ -135,23 +142,36 @@ function updatePreview() {
     const light = container.querySelector('[data-preview-mode="light"]');
     if (light) {
         const bg = secondary || deriveSidebarColor(primary, true);
+        const textColor = (!secondary || isDarkColor(secondary)) ? '#fff' : '#1e1e1e';
         light.querySelectorAll('[data-preview-sidebar]').forEach(el => {
             el.style.backgroundColor = bg;
+            el.style.color = textColor;
             el.style.setProperty('--icon-color-accent', primary);
         });
-        light.querySelectorAll('[data-preview-header]').forEach(el => el.style.backgroundColor = bg);
+        light.querySelectorAll('[data-preview-header]').forEach(el => {
+            el.style.backgroundColor = bg;
+            const span = el.querySelector('span');
+            if (span) span.style.color = textColor;
+        });
     }
 
     // Dark mode
     const dark = container.querySelector('[data-preview-mode="dark"]');
     if (dark) {
         const ep = dkPrimary || primary;
-        const bg = dkSecondary || (secondary || deriveSidebarColor(ep, false));
+        const effectiveSecondary = dkSecondary || secondary;
+        const bg = effectiveSecondary || deriveSidebarColor(ep, false);
+        const textColor = (!effectiveSecondary || isDarkColor(effectiveSecondary)) ? '#fff' : '#1e1e1e';
         dark.querySelectorAll('[data-preview-sidebar]').forEach(el => {
             el.style.backgroundColor = bg;
+            el.style.color = textColor;
             el.style.setProperty('--icon-color-accent', ep);
         });
-        dark.querySelectorAll('[data-preview-header]').forEach(el => el.style.backgroundColor = bg);
+        dark.querySelectorAll('[data-preview-header]').forEach(el => {
+            el.style.backgroundColor = bg;
+            const span = el.querySelector('span');
+            if (span) span.style.color = textColor;
+        });
     }
 }
 
