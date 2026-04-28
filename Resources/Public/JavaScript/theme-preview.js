@@ -160,7 +160,7 @@ function updatePreview() {
         light.querySelectorAll('[data-preview-sidebar]').forEach(el => {
             el.style.backgroundColor = sBg;
             el.style.color = sText;
-            el.style.setProperty('--icon-color-accent', primary);
+            el.style.setProperty('--icon-color-accent', deriveIconAccent(primary, true));
         });
         light.querySelectorAll('[data-preview-header]').forEach(el => {
             el.style.backgroundColor = hBg;
@@ -181,7 +181,7 @@ function updatePreview() {
         dark.querySelectorAll('[data-preview-sidebar]').forEach(el => {
             el.style.backgroundColor = sBg;
             el.style.color = sText;
-            el.style.setProperty('--icon-color-accent', ep);
+            el.style.setProperty('--icon-color-accent', deriveIconAccent(ep, false));
         });
         dark.querySelectorAll('[data-preview-header]').forEach(el => {
             el.style.backgroundColor = hBg;
