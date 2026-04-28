@@ -23,13 +23,15 @@ function hexToHsl(hex) {
 }
 
 function deriveSidebarColor(hex, light) {
-    const { h } = hexToHsl(hex);
-    return light ? `hsl(${h}, 40%, 20%)` : `hsl(${h}, 20%, 10%)`;
+    const { h, s } = hexToHsl(hex);
+    const sat = s < 5 ? 0 : (light ? 40 : 20);
+    return light ? `hsl(${h}, ${sat}%, 20%)` : `hsl(${h}, ${sat}%, 10%)`;
 }
 
 function deriveIconAccent(hex, light) {
     const { h, s } = hexToHsl(hex);
-    return light ? `hsl(${h}, ${s}%, 75%)` : `hsl(${h}, ${s}%, 70%)`;
+    const sat = s < 5 ? 0 : s;
+    return light ? `hsl(${h}, ${sat}%, 75%)` : `hsl(${h}, ${sat}%, 70%)`;
 }
 
 function isDarkColor(color) {
