@@ -45,12 +45,12 @@ final class CssGenerator
         $sidebarColor = $this->resolveTextColor($sidebar);
         $headerColor = '' !== $header ? $this->resolveTextColor($header) : $sidebarColor;
 
+        $dkEffective = '' !== $dkPrimary ? $dkPrimary : $primary;
+
         $css = <<<CSS
 html[data-theme] {
     --token-color-primary-base: {$primary};
     --token-color-secondary-base: color-mix(in srgb, #737373, var(--token-color-primary-base) var(--typo3-color-state-harmonize));
-    --typo3-icons-accent: light-dark(hsl(from {$primary} h s 55%), hsl(from {$primary} h s 45%));
-    --icon-color-accent: var(--typo3-icons-accent);
     --typo3-scaffold-header-color: {$headerColor};
     --typo3-scaffold-header-bg: {$headerBg};
     --typo3-scaffold-header-box-shadow: none;
@@ -60,11 +60,19 @@ html[data-theme] {
 }
 html[data-theme] .icon,
 html[data-theme] typo3-backend-icon {
-    --icon-color-accent: light-dark(hsl(from {$primary} h s 55%), hsl(from {$primary} h s 45%));
+    --icon-color-accent: hsl(from {$primary} h s 55%);
 }
 html[data-theme] .scaffold-sidebar .icon,
 html[data-theme] .scaffold-sidebar typo3-backend-icon {
-    --icon-color-accent: light-dark(hsl(from {$primary} h s 75%), hsl(from {$primary} h s 70%));
+    --icon-color-accent: hsl(from {$primary} h s 75%);
+}
+html[data-color-scheme="dark"] .icon,
+html[data-color-scheme="dark"] typo3-backend-icon {
+    --icon-color-accent: hsl(from {$dkEffective} h s 45%);
+}
+html[data-color-scheme="dark"] .scaffold-sidebar .icon,
+html[data-color-scheme="dark"] .scaffold-sidebar typo3-backend-icon {
+    --icon-color-accent: hsl(from {$dkEffective} h s 70%);
 }
 CSS;
 
