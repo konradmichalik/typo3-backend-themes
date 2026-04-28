@@ -22,14 +22,12 @@ use TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 
-
 /**
  * DataHandlerHookTest.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final class DataHandlerHookTest extends TestCase
 {
     private ConnectionPool&MockObject $connectionPool;
@@ -38,7 +36,8 @@ final class DataHandlerHookTest extends TestCase
     protected function setUp(): void
     {
         $this->connectionPool = $this->createMock(ConnectionPool::class);
-        $this->subject = new DataHandlerHook($this->connectionPool);
+        $flashMessageService = $this->createMock(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+        $this->subject = new DataHandlerHook($this->connectionPool, $flashMessageService);
     }
 
     #[Test]
