@@ -49,7 +49,7 @@
                 <source>Default Theme</source>
             </trans-unit>
             <trans-unit id="palette.overrides">
-                <source>Overrides</source>
+                <source>Light Mode Overrides</source>
             </trans-unit>
             <trans-unit id="palette.darkmode_overrides">
                 <source>Dark Mode Overrides</source>
