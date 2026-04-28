@@ -160,13 +160,13 @@ function updatePreview() {
         });
     }
 
-    // Dark: same inheritance chain
+    // Dark: dk overrides > derive from dk primary
     const dark = container.querySelector('[data-preview-mode="dark"]');
     if (dark) {
         const ep = dkPrimary || primary;
         const derivedDk = deriveSidebarColor(ep, false);
-        const sBg = dkSidebar || sidebarColor || derivedDk;
-        const hBg = dkHeader || headerColor || sBg;
+        const sBg = dkSidebar || derivedDk;
+        const hBg = dkHeader || sBg;
         const sText = isDarkColor(sBg) ? '#fff' : '#1e1e1e';
         const hText = isDarkColor(hBg) ? '#fff' : '#1e1e1e';
         dark.querySelectorAll('[data-preview-sidebar]').forEach(el => {
