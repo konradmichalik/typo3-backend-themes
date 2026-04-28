@@ -51,8 +51,6 @@ final class CssGenerator
         $headerColor = '' !== $header ? $this->resolveTextColor($header) : $sidebarColor;
 
         $dkEffective = '' !== $dkPrimary ? $dkPrimary : $primary;
-        $sidebarAccentSource = '' !== $sidebar ? $sidebar : $primary;
-        $dkSidebarAccentSource = '' !== $dkSidebar ? $dkSidebar : $dkEffective;
 
         $css = <<<CSS
 html[data-theme] {
@@ -71,7 +69,7 @@ html[data-theme] typo3-backend-icon {
 }
 html[data-theme] .scaffold-sidebar .icon,
 html[data-theme] .scaffold-sidebar typo3-backend-icon {
-    --icon-color-accent: hsl(from {$sidebarAccentSource} h s 75%);
+    --icon-color-accent: hsl(from {$primary} h s 75%);
 }
 html[data-color-scheme="dark"] .icon,
 html[data-color-scheme="dark"] typo3-backend-icon {
@@ -79,7 +77,7 @@ html[data-color-scheme="dark"] typo3-backend-icon {
 }
 html[data-color-scheme="dark"] .scaffold-sidebar .icon,
 html[data-color-scheme="dark"] .scaffold-sidebar typo3-backend-icon {
-    --icon-color-accent: hsl(from {$dkSidebarAccentSource} h s 70%);
+    --icon-color-accent: hsl(from {$dkEffective} h s 70%);
 }
 CSS;
 
