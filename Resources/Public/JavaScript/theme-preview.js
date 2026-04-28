@@ -133,7 +133,7 @@ function injectPreview() {
 
     const wrapper = document.createElement('div');
     wrapper.innerHTML = PREVIEW_HTML;
-    target.parentNode.insertBefore(wrapper.firstElementChild, target.nextSibling);
+    target.parentNode.insertBefore(wrapper.firstElementChild, target);
 }
 
 function updatePreview() {
