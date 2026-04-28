@@ -14,7 +14,7 @@
 
 </div>
 
-TYPO3 v14 extension to create custom backend color themes. Define primary and secondary colors, configure dark mode overrides, and let backend users choose their preferred theme.
+TYPO3 extension to create custom backend color themes. Define primary and secondary colors, configure dark mode overrides, and let backend users choose their preferred theme.
 
 > [!NOTE]
 > Use this extension to subtly establish your project or client branding in the TYPO3 backend. For example, apply corporate colors to the sidebar, header and icons so editors immediately recognize which installation they are working in.
@@ -29,7 +29,7 @@ TYPO3 v14 extension to create custom backend color themes. Define primary and se
 - Admin-defined default theme recommendation
 
 > [!WARNING]
-> This is an experimental extension. TYPO3 v14 introduced the [Fresh theme](https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/14.0/Feature-108240-IntroduceFreshTheme.html) and the backend theming approach based on CSS custom properties and design tokens is expected to evolve further in upcoming TYPO3 core releases. This extension builds on top of that system and may require adjustments as the core API matures.
+> This is an experimental extension. TYPO3 v14 introduced the [Fresh theme](https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/14.0/Feature-108240-IntroduceFreshTheme.html) and the backend theming approach based on CSS custom properties and design tokens is expected to evolve further in upcoming TYPO3 core releases. This extension builds on top of that system and serves as an example of how adaptable the TYPO3 backend already is. It may require adjustments as the core API matures.
 
 ## 🔥 Installation
 
@@ -54,6 +54,21 @@ composer require konradmichalik/typo3-backend-themes
 [![TER downloads](https://typo3-badges.dev/badge/backend_themes/downloads/shields.svg)](https://extensions.typo3.org/extension/backend_themes)
 
 Download the zip file from [TYPO3 extension repository (TER)](https://extensions.typo3.org/extension/backend_themes).
+
+### Demo Themes
+
+The extension ships with three demo themes. To import them, run the extension setup after installation:
+
+```bash
+vendor/bin/typo3 extension:setup
+```
+
+- **Corporate Blue** — simple, primary color only
+- **Nature Green** — simple, primary color only
+- **Warm Sunset** — with header, sidebar and dark mode overrides
+
+> [!TIP]
+> The demo themes are meant as a starting point. Feel free to adjust them to your needs or delete them entirely.
 
 ## 🎨 Configuration
 
@@ -83,7 +98,7 @@ Users select their theme under **User Settings → Appearance → Theme**:
 
 ![Theme dropdown in User Settings](Documentation/Images/user-settings-dropdown.jpg)
 
-Standard TYPO3 themes continue to work as before. Custom themes apply color overrides via CSS custom properties.
+Standard TYPO3 themes continue to work as before, unless the extension setting "Hide default TYPO3 themes" is enabled. Custom themes apply color overrides via CSS custom properties.
 
 > [!IMPORTANT]
 > After changing a theme in User Settings or editing theme colors, a **full page reload** is required. The extension shows a FlashMessage reminder.
