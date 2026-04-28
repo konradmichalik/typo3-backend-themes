@@ -132,20 +132,16 @@ CSS;
             $lines[] = "    --token-color-primary-base: {$dkPrimary};";
         }
 
-        // Sidebar: explicit dk override > derive from dkPrimary if light sidebar was also derived
-        $effectiveDkSidebar = $dkSidebar;
-        if ('' === $effectiveDkSidebar && '' !== $dkPrimary && '' === $lightSidebar) {
-            $effectiveDkSidebar = "hsl(from {$dkPrimary} h 20% 10%)";
-        }
+        $derivedFromDkPrimary = '' !== $dkPrimary ? "hsl(from {$dkPrimary} h 20% 10%)" : '';
+
+        // Sidebar: explicit dk > derive from dkPrimary (always override light value)
+        $effectiveDkSidebar = $dkSidebar ?: $derivedFromDkPrimary;
         if ('' !== $effectiveDkSidebar) {
             $lines[] = "    --typo3-scaffold-sidebar-bg: {$effectiveDkSidebar};";
         }
 
-        // Header: explicit dk override > inherit from dk sidebar > derive from dkPrimary
-        $effectiveDkHeader = $dkHeader;
-        if ('' === $effectiveDkHeader && '' === $lightHeader) {
-            $effectiveDkHeader = $effectiveDkSidebar;
-        }
+        // Header: explicit dk > inherit from dk sidebar
+        $effectiveDkHeader = $dkHeader ?: $effectiveDkSidebar;
         if ('' !== $effectiveDkHeader) {
             $lines[] = "    --typo3-scaffold-header-bg: {$effectiveDkHeader};";
         }
