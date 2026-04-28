@@ -103,10 +103,11 @@ Standard TYPO3 themes continue to work as before, unless the extension setting "
 > [!IMPORTANT]
 > After changing a theme in User Settings or editing theme colors, a **full page reload** is required. The extension shows a FlashMessage reminder.
 
-## 🤝 Contributing
+## 🧑‍💻 Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, linting, testing and pull request guidelines.
+Please have a look at [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-## 📄 License
+## ⭐ License
 
-GPL-2.0-or-later
+This project is licensed
+under [GNU General Public License 2.0 (or later)](LICENSE).
