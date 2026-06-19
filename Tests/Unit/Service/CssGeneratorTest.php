@@ -46,7 +46,7 @@ final class CssGeneratorTest extends TestCase
 
         $css = $this->subject->generate($theme);
 
-        self::assertStringContainsString('--token-color-primary-base: #3B82F6;', $css);
+        self::assertStringContainsString('--token-color-primary-base: #3b82f6;', $css);
     }
 
     #[Test]
@@ -63,8 +63,8 @@ final class CssGeneratorTest extends TestCase
 
         $css = $this->subject->generate($theme);
 
-        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: hsl(from #3B82F6 h 40% 20%);', $css);
-        self::assertStringContainsString('--typo3-scaffold-header-bg: hsl(from #3B82F6 h 40% 20%);', $css);
+        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: hsl(from #3b82f6 h 40% 20%);', $css);
+        self::assertStringContainsString('--typo3-scaffold-header-bg: hsl(from #3b82f6 h 40% 20%);', $css);
     }
 
     #[Test]
@@ -81,8 +81,8 @@ final class CssGeneratorTest extends TestCase
 
         $css = $this->subject->generate($theme);
 
-        self::assertStringContainsString('--typo3-scaffold-header-bg: #1E3A5F;', $css);
-        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: #1E3A5F;', $css);
+        self::assertStringContainsString('--typo3-scaffold-header-bg: #1e3a5f;', $css);
+        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: #1e3a5f;', $css);
     }
 
     #[Test]
@@ -100,7 +100,7 @@ final class CssGeneratorTest extends TestCase
         $css = $this->subject->generate($theme);
 
         self::assertStringContainsString('[data-color-scheme="dark"]', $css);
-        self::assertStringContainsString('--token-color-primary-base: #1D4ED8;', $css);
+        self::assertStringContainsString('--token-color-primary-base: #1d4ed8;', $css);
     }
 
     #[Test]
@@ -118,7 +118,7 @@ final class CssGeneratorTest extends TestCase
         $css = $this->subject->generate($theme);
 
         self::assertStringContainsString('[data-color-scheme="dark"]', $css);
-        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: hsl(from #3B82F6 h 20% 10%);', $css);
+        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: hsl(from #3b82f6 h 20% 10%);', $css);
     }
 
     #[Test]
@@ -140,8 +140,8 @@ final class CssGeneratorTest extends TestCase
         $darkBlockStart = strpos($css, '[data-color-scheme="dark"]');
         self::assertNotFalse($darkBlockStart);
         $darkBlock = substr($css, $darkBlockStart);
-        self::assertStringContainsString('--typo3-scaffold-header-bg: #0F2A4A;', $darkBlock);
-        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: #0F2A4A;', $darkBlock);
+        self::assertStringContainsString('--typo3-scaffold-header-bg: #0f2a4a;', $darkBlock);
+        self::assertStringContainsString('--typo3-scaffold-sidebar-bg: #0f2a4a;', $darkBlock);
     }
 
     #[Test]
@@ -189,14 +189,8 @@ final class CssGeneratorTest extends TestCase
             'empty string' => [
                 ['primary_color' => '', 'header_color' => '', 'sidebar_color' => '', 'darkmode_primary_color' => '', 'darkmode_header_color' => '', 'darkmode_sidebar_color' => ''],
             ],
-            'no hash prefix' => [
-                ['primary_color' => '3B82F6', 'header_color' => '', 'sidebar_color' => '', 'darkmode_primary_color' => '', 'darkmode_header_color' => '', 'darkmode_sidebar_color' => ''],
-            ],
             'invalid hex characters' => [
                 ['primary_color' => '#ZZZZZZ', 'header_color' => '', 'sidebar_color' => '', 'darkmode_primary_color' => '', 'darkmode_header_color' => '', 'darkmode_sidebar_color' => ''],
-            ],
-            'too short 3-char hex' => [
-                ['primary_color' => '#F0F', 'header_color' => '', 'sidebar_color' => '', 'darkmode_primary_color' => '', 'darkmode_header_color' => '', 'darkmode_sidebar_color' => ''],
             ],
             'rgb format' => [
                 ['primary_color' => 'rgb(59, 130, 246)', 'header_color' => '', 'sidebar_color' => '', 'darkmode_primary_color' => '', 'darkmode_header_color' => '', 'darkmode_sidebar_color' => ''],
@@ -214,5 +208,35 @@ final class CssGeneratorTest extends TestCase
         $css = $this->subject->generate($theme);
 
         self::assertSame('', $css);
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string}>
+     */
+    public static function lenientPrimaryColorProvider(): array
+    {
+        return [
+            'short hex is expanded' => ['#F0F', '#ff00ff'],
+            'missing hash is accepted' => ['3B82F6', '#3b82f6'],
+            'surrounding whitespace is trimmed' => [' #3B82F6 ', '#3b82f6'],
+        ];
+    }
+
+    #[DataProvider('lenientPrimaryColorProvider')]
+    #[Test]
+    public function generateNormalizesLenientPrimaryColor(string $input, string $expectedHex): void
+    {
+        $theme = [
+            'primary_color' => $input,
+            'header_color' => '',
+            'sidebar_color' => '',
+            'darkmode_primary_color' => '',
+            'darkmode_header_color' => '',
+            'darkmode_sidebar_color' => '',
+        ];
+
+        $css = $this->subject->generate($theme);
+
+        self::assertStringContainsString("--token-color-primary-base: {$expectedHex};", $css);
     }
 }
