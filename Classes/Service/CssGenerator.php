@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3BackendThemes\Service;
 
+use KonradMichalik\Color\Color;
+use KonradMichalik\Color\Exception\InvalidColorValue;
+
 /**
  * CssGenerator.
  *
@@ -21,34 +24,34 @@ namespace KonradMichalik\Typo3BackendThemes\Service;
  */
 final class CssGenerator
 {
-    private const HEX_COLOR_PATTERN = '/^#[A-Fa-f0-9]{6}$/';
-
     /**
      * @param array<string, mixed> $theme
      */
     public function generate(array $theme): string
     {
-        $primary = (string) ($theme['primary_color'] ?? '');
-        if (!$this->isValidHexColor($primary)) {
+        $primaryColor = $this->parseColor((string) ($theme['primary_color'] ?? ''));
+        if (null === $primaryColor) {
             return '';
         }
 
-        $header = $this->validateColor((string) ($theme['header_color'] ?? ''));
-        $sidebar = $this->validateColor((string) ($theme['sidebar_color'] ?? ''));
-        $dkPrimary = $this->validateColor((string) ($theme['darkmode_primary_color'] ?? ''));
-        $dkHeader = $this->validateColor((string) ($theme['darkmode_header_color'] ?? ''));
-        $dkSidebar = $this->validateColor((string) ($theme['darkmode_sidebar_color'] ?? ''));
+        $primary = $primaryColor->toHex();
 
-        $sidebarBg = '' !== $sidebar ? $sidebar : "hsl(from {$primary} h 40% 20%)";
-        $headerBg = '' !== $header ? $header : $sidebarBg;
+        $header = $this->parseColor((string) ($theme['header_color'] ?? ''));
+        $sidebar = $this->parseColor((string) ($theme['sidebar_color'] ?? ''));
+        $dkPrimary = $this->parseColor((string) ($theme['darkmode_primary_color'] ?? ''));
+        $dkHeader = $this->parseColor((string) ($theme['darkmode_header_color'] ?? ''));
+        $dkSidebar = $this->parseColor((string) ($theme['darkmode_sidebar_color'] ?? ''));
+
+        $sidebarBg = null !== $sidebar ? $sidebar->toHex() : "hsl(from {$primary} h 40% 20%)";
+        $headerBg = null !== $header ? $header->toHex() : $sidebarBg;
         $sidebarColor = $this->resolveTextColor($sidebar);
-        $headerColor = '' !== $header ? $this->resolveTextColor($header) : $sidebarColor;
+        $headerColor = null !== $header ? $this->resolveTextColor($header) : $sidebarColor;
 
-        $dkEffective = '' !== $dkPrimary ? $dkPrimary : $primary;
-        $dkSidebarBg = $dkSidebar ?: "hsl(from {$dkEffective} h 20% 10%)";
-        $dkHeaderBg = $dkHeader ?: $dkSidebarBg;
+        $dkEffective = null !== $dkPrimary ? $dkPrimary->toHex() : $primary;
+        $dkSidebarBg = null !== $dkSidebar ? $dkSidebar->toHex() : "hsl(from {$dkEffective} h 20% 10%)";
+        $dkHeaderBg = null !== $dkHeader ? $dkHeader->toHex() : $dkSidebarBg;
 
-        $css = <<<CSS
+        return <<<CSS
 html[data-theme] {
     --token-color-primary-base: {$primary};
     --token-color-secondary-base: color-mix(in srgb, #737373, var(--token-color-primary-base) var(--typo3-color-state-harmonize));
@@ -81,37 +84,29 @@ html[data-color-scheme="dark"] .scaffold-sidebar typo3-backend-icon {
     --icon-color-accent: hsl(from {$dkEffective} h s 70%);
 }
 CSS;
-
-        return $css;
     }
 
-    private function isValidHexColor(string $color): bool
+    private function parseColor(string $value): ?Color
     {
-        return 1 === preg_match(self::HEX_COLOR_PATTERN, $color);
+        if ('' === $value) {
+            return null;
+        }
+
+        try {
+            return Color::fromHex($value);
+        } catch (InvalidColorValue) {
+            return null;
+        }
     }
 
-    private function validateColor(string $color): string
+    private function resolveTextColor(?Color $bgColor): string
     {
-        return '' !== $color && $this->isValidHexColor($color) ? $color : '';
-    }
-
-    private function resolveTextColor(string $bgColor): string
-    {
-        if ('' === $bgColor) {
+        if (null === $bgColor) {
             return 'var(--typo3-surface-primary-text)';
         }
 
-        return $this->isDarkColor($bgColor)
+        return $bgColor->isDark()
             ? 'var(--typo3-surface-primary-text)'
             : 'var(--typo3-text-color-base)';
-    }
-
-    private function isDarkColor(string $hex): bool
-    {
-        $r = hexdec(substr($hex, 1, 2)) / 255;
-        $g = hexdec(substr($hex, 3, 2)) / 255;
-        $b = hexdec(substr($hex, 5, 2)) / 255;
-
-        return (0.2126 * $r + 0.7152 * $g + 0.0722 * $b) < 0.5;
     }
 }
