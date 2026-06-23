@@ -48,6 +48,80 @@ function isDarkColor(color) {
     return (0.2126 * r + 0.7152 * g + 0.0722 * b) < 0.5;
 }
 
+// WCAG contrast helpers ---------------------------------------------------
+
+function hslToRgb(h, s, l) {
+    s /= 100;
+    l /= 100;
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    const m = l - c / 2;
+    let r = 0, g = 0, b = 0;
+    if (h < 60) [r, g, b] = [c, x, 0];
+    else if (h < 120) [r, g, b] = [x, c, 0];
+    else if (h < 180) [r, g, b] = [0, c, x];
+    else if (h < 240) [r, g, b] = [0, x, c];
+    else if (h < 300) [r, g, b] = [x, 0, c];
+    else [r, g, b] = [c, 0, x];
+    return { r: Math.round((r + m) * 255), g: Math.round((g + m) * 255), b: Math.round((b + m) * 255) };
+}
+
+function parseRgb(color) {
+    if (!color) return null;
+    if (color.startsWith('hsl')) {
+        const m = color.match(/hsl\(\s*(\d+)\D+(\d+)%\D+(\d+)%/);
+        return m ? hslToRgb(parseInt(m[1], 10), parseInt(m[2], 10), parseInt(m[3], 10)) : null;
+    }
+    const clean = color.replace('#', '');
+    if (clean.length !== 6) return null;
+    return {
+        r: parseInt(clean.slice(0, 2), 16),
+        g: parseInt(clean.slice(2, 4), 16),
+        b: parseInt(clean.slice(4, 6), 16),
+    };
+}
+
+function relativeLuminance({ r, g, b }) {
+    const channel = (v) => {
+        const s = v / 255;
+        return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+    };
+    return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+}
+
+function contrastRatio(fg, bg) {
+    const a = parseRgb(fg);
+    const b = parseRgb(bg);
+    if (!a || !b) return null;
+    const l1 = relativeLuminance(a);
+    const l2 = relativeLuminance(b);
+    const [lighter, darker] = l1 >= l2 ? [l1, l2] : [l2, l1];
+    return (lighter + 0.05) / (darker + 0.05);
+}
+
+// WCAG AA requires 4.5:1 for normal text.
+const MIN_CONTRAST = 4.5;
+
+function renderWarnings(panel, checks) {
+    const box = panel.querySelector('[data-preview-warning]');
+    if (!box) return;
+    const failures = checks
+        .map(({ label, fg, bg }) => ({ label, ratio: contrastRatio(fg, bg) }))
+        .filter(({ ratio }) => ratio !== null && ratio < MIN_CONTRAST);
+
+    if (failures.length === 0) {
+        box.textContent = '';
+        box.style.display = 'none';
+        return;
+    }
+
+    box.style.display = 'block';
+    box.innerHTML = failures
+        .map(({ label, ratio }) =>
+            `<span style="display:inline-block;">&#9888; ${label}: ${ratio.toFixed(1)}:1</span>`)
+        .join(' &middot; ');
+}
+
 /**
  * Read a color field value. TYPO3 FormEngine stores the real value in
  * a hidden input whose name ends with [fieldname]. The visible input
@@ -109,6 +183,7 @@ function buildPanel(mode) {
                 </div>
             </div>
         </div>
+        <div data-preview-warning role="status" style="display:none;margin-top:6px;font-size:11px;line-height:1.4;color:#b54708;"></div>
     </div>`;
 }
 
@@ -167,6 +242,10 @@ function updatePreview() {
             const span = el.querySelector('span');
             if (span) span.style.color = hText;
         });
+        renderWarnings(light, [
+            { label: 'Header', fg: hText, bg: hBg },
+            { label: 'Sidebar', fg: sText, bg: sBg },
+        ]);
     }
 
     // Dark: dk overrides > derive from dk primary
@@ -188,6 +267,10 @@ function updatePreview() {
             const span = el.querySelector('span');
             if (span) span.style.color = hText;
         });
+        renderWarnings(dark, [
+            { label: 'Header', fg: hText, bg: hBg },
+            { label: 'Sidebar', fg: sText, bg: sBg },
+        ]);
     }
 }
 
