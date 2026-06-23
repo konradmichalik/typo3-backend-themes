@@ -53,6 +53,7 @@ return [
         'phpstan.neon',
         'rector.php',
         'renovate.json',
+        'typo3-vendor-bundler.yaml',
         'typoscript-lint.yml',
         'version-bumper.yaml',
     ],
