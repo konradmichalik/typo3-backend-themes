@@ -66,8 +66,7 @@ The extension ships with a set of curated starter themes. To import them, run th
 vendor/bin/typo3 extension:setup
 ```
 
-- **Corporate Blue**, **Nature Green**, **Ocean Teal**, **Royal Purple**, **Slate Neutral**, **Amber Gold** — simple, primary color only
-- **Warm Sunset**, **Ruby Red**, **Indigo Midnight** — with header, sidebar and dark mode overrides
+**Corporate Blue**, **Nature Green**, **Warm Sunset**, **Ocean Teal**, **Royal Purple**, **Slate Neutral**, **Amber Gold**, **Ruby Red**, **Indigo Midnight** — each with subtly distinct header and sidebar shades plus dark mode overrides.
 
 > [!TIP]
 > The starter themes are meant as a starting point. Feel free to adjust them to your needs or delete them entirely.
