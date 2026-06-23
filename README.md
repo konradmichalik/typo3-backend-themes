@@ -25,8 +25,11 @@ TYPO3 extension to create custom backend color themes. Define primary and second
 
 - Custom color themes as database records with live preview
 - Dark mode support with optional overrides
+- WCAG contrast warning in the preview to avoid unreadable color combinations
 - User Settings integration alongside TYPO3 default themes
+- Live theme switching — the backend re-colors instantly after a theme change, no full page reload
 - Admin-defined default theme recommendation
+- Curated starter themes shipped out of the box
 
 > [!WARNING]
 > This is an experimental extension. TYPO3 v14 introduced the [Fresh theme](https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/14.0/Feature-108240-IntroduceFreshTheme.html) and the backend theming approach based on CSS custom properties and design tokens is expected to evolve further in upcoming TYPO3 core releases. This extension builds on top of that system and serves as an example of how adaptable the TYPO3 backend already is. It may require adjustments as the core API matures.
@@ -57,18 +60,17 @@ Download the zip file from [TYPO3 extension repository (TER)](https://extensions
 
 ### Demo Themes
 
-The extension ships with three demo themes. To import them, run the extension setup after installation:
+The extension ships with a set of curated starter themes. To import them, run the extension setup after installation:
 
 ```bash
 vendor/bin/typo3 extension:setup
 ```
 
-- **Corporate Blue** — simple, primary color only
-- **Nature Green** — simple, primary color only
-- **Warm Sunset** — with header, sidebar and dark mode overrides
+- **Corporate Blue**, **Nature Green**, **Ocean Teal**, **Royal Purple**, **Slate Neutral**, **Amber Gold** — simple, primary color only
+- **Warm Sunset**, **Ruby Red**, **Indigo Midnight** — with header, sidebar and dark mode overrides
 
 > [!TIP]
-> The demo themes are meant as a starting point. Feel free to adjust them to your needs or delete them entirely.
+> The starter themes are meant as a starting point. Feel free to adjust them to your needs or delete them entirely.
 
 ## 🎨 Configuration
 
@@ -100,8 +102,8 @@ Users select their theme under **User Settings → Appearance → Theme**:
 
 Standard TYPO3 themes continue to work as before, unless the extension setting "Hide default TYPO3 themes" is enabled. Custom themes apply color overrides via CSS custom properties.
 
-> [!IMPORTANT]
-> After changing a theme in User Settings or editing theme colors, a **full page reload** is required. The extension shows a FlashMessage reminder.
+> [!NOTE]
+> Switching your theme in User Settings applies instantly — the backend re-colors without a full page reload. Only after editing the colors of a theme **record** a reload is needed to see the change reflected in the backend chrome.
 
 ## 🧑‍💻 Contributing
 
