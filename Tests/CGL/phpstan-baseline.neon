@@ -21,11 +21,5 @@ parameters:
         -
             message: '#^Mixed property fetch in a "\$backendUser\-\>\.\.\." can skip important errors\. Make sure the type is known$#'
             identifier: typePerfect.noMixedPropertyFetcher
-            count: 2
-            path: ../../Classes/Middleware/ThemeChangeNotificationMiddleware.php
-
-        -
-            message: '#^Mixed property fetch in a "\$backendUser\-\>\.\.\." can skip important errors\. Make sure the type is known$#'
-            identifier: typePerfect.noMixedPropertyFetcher
             count: 1
             path: ../../Classes/Service/ThemeService.php

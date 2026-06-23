@@ -22,14 +22,5 @@ return [
                 'typo3/cms-backend/authentication',
             ],
         ],
-        'konradmichalik/backend-themes/theme-change-notification' => [
-            'target' => KonradMichalik\Typo3BackendThemes\Middleware\ThemeChangeNotificationMiddleware::class,
-            'before' => [
-                'typo3/cms-backend/output-compression',
-            ],
-            'after' => [
-                'typo3/cms-backend/authentication',
-            ],
-        ],
     ],
 ];

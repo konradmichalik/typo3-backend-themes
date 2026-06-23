@@ -13,5 +13,8 @@ services:
   KonradMichalik\Typo3BackendThemes\Backend\Form\ItemsProcFunc\ThemeItemsProcFunc:
     public: true
 
+  KonradMichalik\Typo3BackendThemes\Controller\CssController:
+    public: true
+
   KonradMichalik\Typo3BackendThemes\Hook\DataHandlerHook:
     public: true

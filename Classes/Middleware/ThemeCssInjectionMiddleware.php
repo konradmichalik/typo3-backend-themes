@@ -40,6 +40,7 @@ final readonly class ThemeCssInjectionMiddleware implements MiddlewareInterface
             $css = $this->cssGenerator->generate($theme);
             if ('' !== $css) {
                 $this->pageRenderer->addCssInlineBlock('typo3_backend_themes', $css);
+                $this->pageRenderer->loadJavaScriptModule('@konradmichalik/backend-themes/theme-live.js');
             }
         }
 
