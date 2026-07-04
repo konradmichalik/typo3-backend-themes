@@ -21,7 +21,7 @@
 		"typo3/cms-core": "^14.0"
 	},
 	"require-dev": {
-		"eliashaeussler/typo3-vendor-bundler": "^4.0",
+		"eliashaeussler/typo3-vendor-bundler": "^4.0.3",
 		"eliashaeussler/version-bumper": "^3.1.1",
 		"helhum/typo3-console": "^9.0.0",
 		"phpunit/phpcov": "^10.0 || ^11.0 || ^13.0",
