@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace KonradMichalik\Typo3BackendThemes\Tests\Unit\Controller;
 
 use Doctrine\DBAL\Result;
+use KonradMichalik\Ttt\Attribute\WithBackendUser;
 use KonradMichalik\Typo3BackendThemes\Controller\CssController;
 use KonradMichalik\Typo3BackendThemes\Service\{CssGenerator, ThemeService};
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use stdClass;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -33,16 +33,10 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
  */
 final class CssControllerTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        unset($GLOBALS['BE_USER']);
-    }
-
     #[Test]
     public function cssActionReturnsEmptyCssWhenNoThemeResolved(): void
     {
-        unset($GLOBALS['BE_USER']);
-
+        // No backend user is registered, so no theme can be resolved.
         $subject = new CssController(
             new ThemeService($this->createMock(ConnectionPool::class)),
             new CssGenerator(),
@@ -55,11 +49,10 @@ final class CssControllerTest extends TestCase
     }
 
     #[Test]
+    #[WithBackendUser]
     public function cssActionReturnsGeneratedCssForResolvedTheme(): void
     {
-        $backendUser = new stdClass();
-        $backendUser->uc = ['theme' => 'custom_1'];
-        $GLOBALS['BE_USER'] = $backendUser;
+        $GLOBALS['BE_USER']->uc = ['theme' => 'custom_1'];
 
         $themeRecord = ['uid' => 1, 'title' => 'Blue', 'primary_color' => '#3B82F6'];
         $connectionPool = $this->createConnectionPoolMock($themeRecord);
