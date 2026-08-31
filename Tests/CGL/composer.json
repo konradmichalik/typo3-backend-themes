@@ -17,7 +17,7 @@
 		"helmich/typo3-typoscript-lint": "^3.3",
 		"konradmichalik/php-cs-fixer-preset": "^0.2.1",
 		"konradmichalik/php-doc-block-header-fixer": "^0.3.4",
-		"konradmichalik/phpstan-typo3-preset": "^0.3.1",
+		"konradmichalik/phpstan-typo3-preset": "^0.4.0",
 		"phpstan/phpstan-phpunit": "^1.0 || ^2.0",
 		"shipmonk/composer-dependency-analyser": "1.8.4",
 		"ssch/typo3-rector": "^2.10 || ^3.15",
