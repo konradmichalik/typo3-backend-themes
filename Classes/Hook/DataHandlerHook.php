@@ -60,7 +60,7 @@ final readonly class DataHandlerHook
 
         if ('new' === $status) {
             $id = $dataHandler->substNEWwithIDs[$id] ?? 0;
-            if (0 === (int) $id) {
+            if (0 === $id) {
                 return;
             }
         }
