@@ -16,6 +16,3 @@ parameters:
     excludePaths:
         - ../../.Build (?)
         - ../../Resources/Private/Libs (?)
-
-    type_coverage:
-        constant: 0
